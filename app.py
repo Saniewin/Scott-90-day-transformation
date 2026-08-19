@@ -192,7 +192,7 @@ st.markdown("""
 
 # Title & Digital Metadata Header
 st.markdown('<div class="app-title">SYS_DIAGNOSTIC_PORTAL</div>', unsafe_allow_html=True)
-st.markdown('<div class="app-subtitle">CNS PSYCH_SERVICES 90-DAY APPRAISAL v5.0</div>', unsafe_allow_html=True)
+st.markdown('<div class="app-subtitle">CNS PSYCH_SERVICES 90-DAY APPRAISAL v4.0</div>', unsafe_allow_html=True)
 
 # Structured objectives, tasks, targets, and policies strictly from the 90-Day Psychological Services Appraisal Plan.docx
 audit_db = {
@@ -343,11 +343,11 @@ audit_db = {
 }
 
 # Initialize Session State for audit data
-if 'appraisal_audit_v5' not in st.session_state:
-    st.session_state.appraisal_audit_v5 = {}
+if 'appraisal_audit_v4' not in st.session_state:
+    st.session_state.appraisal_audit_v4 = {}
     for phase_id, phase_info in audit_db.items():
         for task_id, task_info in phase_info["tasks"].items():
-            st.session_state.appraisal_audit_v5[task_id] = {
+            st.session_state.appraisal_audit_v4[task_id] = {
                 "compliant": True,
                 "notes": ""
             }
@@ -393,7 +393,7 @@ if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
         st.markdown(f"**{task_info['label']}**")
         
         # Pull current state
-        curr_state = st.session_state.appraisal_audit_v5[task_id]["compliant"]
+        curr_state = st.session_state.appraisal_audit_v4[task_id]["compliant"]
         
         col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
@@ -409,14 +409,14 @@ if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
             )
         
         # Save to session state
-        st.session_state.appraisal_audit_v5[task_id]["compliant"] = (status_val == "Compliant")
+        st.session_state.appraisal_audit_v4[task_id]["compliant"] = (status_val == "Compliant")
         
         # Render remediation instructions if marked Non-Compliant
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remedy-banner">'
-                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
-                f'</div>',
+                f'<div class="remedy-banner">'\
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'\
+                f'</div>',\
                 unsafe_allow_html=True
             )
             
@@ -427,20 +427,15 @@ if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
     st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to drive Phase I implementation:")
     
     with st.expander("🎓 Learner® — Meticulous Chart & LARA Auditing"):
-        st.write("**Operational Example:** Apply the Learner drive to meticulously study LARA licensing rules (MCL 333.18223) and CPT guidelines. Treat the manual chart audit of 30 testing cases and LARA evaluation log reviews (Rev 6/25) as active, intellectually engaging learning journeys.")
-        st.write("**Unique Opportunity:** Prevents incoming 'action bias' by treating the first 30 days as a period of pure, data-backed learning. This transforms regulatory compliance from a dry, punitive chore into an authoritative clinical study of the organization's current baseline.")
-    with st.expander("🎯 Strategic® — Workflow Triage Mapping"):
-        st.write("**Operational Example:** Automatically sort through the clutter of referral pipelines and trace psychological testing referral life-cycles from inception to intake.")
-        st.write("**Unique Opportunity:** Instantly spots where administrative handoffs and regional Prepaid Inpatient Health Plan (PIHP) portals (such as DWIHN's MHWIN or the State's CHAMPS database) are dropping the ball, allowing Scott to design highly streamlined triage paths.")
-    with st.expander("🤝 Individualization® — Tailored Stakeholder Assessments"):
-        st.write("**Operational Example:** Analyze clinical stakeholder survey responses (prescribers, therapists, outpatient partners) regarding the actual clinical utility and readability of completed psych reports.")
-        st.write("**Unique Opportunity:** Custom-tailors baseline feedback based on the specific clinical writing styles and developmental stages of individual Limited License Psychologists (LLPs), turning a rigid chart audit into an empowering clinical growth plan.")
-    with st.expander("💡 Ideation® — Creative Shadowing Methodologies"):
-        st.write("**Operational Example:** Design non-traditional, engaging shadowing techniques to evaluate intake and scheduling personnel workflows without disrupting active consumer care.")
-        st.write("**Unique Opportunity:** Conceives qualitative assessment methods and out-of-the-box intake filters that capture staff behaviors and patient entry trends from strangely enlightening angles.")
-    with st.expander("🔍 Intellection® — Root-Cause Analysis of Compliance Gaps"):
-        st.write("**Operational Example:** Deeply analyze the systemic and historical reasons behind why documentation loops or supervision hours fell out of compliance.")
-        st.write("**Unique Opportunity:** Leads to the conceptualization of permanent, highly structured administrative solutions (like centralized, automated HR tracking systems) rather than temporary paper workarounds.")
+        st.write("Apply the Learner drive to meticulously study licensing regulations and CPT guidelines. Treat the **30-case stratified chart audit** and LARA log review as active, intellectually engaging learning journeys from baseline discovery to full clinical mastery.")
+    with st.expander("🎯 Strategic® — Workflow Bottleneck Mapping"):
+        st.write("Use the Strategic talent to automatically sort through the clutter of referral workflows. Spot underlying patterns of delay as testing requests move through EHR authorization queues toward PIHP portals.")
+    with st.expander("🤝 Individualization® — Tailored LLP Mentoring"):
+        st.write("Acknowledge the unique clinical and writing styles of Limited License Psychologists (LLPs). Turn chart audit deficiencies into positive, customized growth plans during supervision sessions rather than issuing standardized reprimands.")
+    with st.expander("💡 Ideation® — Designing Triage shadow frameworks"):
+        st.write("Brainstorm out-of-the-box, highly engaging shadowing techniques and intake filters that capture baseline qualitative experiences without disrupting ongoing client care.")
+    with st.expander("🔍 Intellection® — Deep Root-Cause Compliance Analysis"):
+        st.write("Engage in focused, introspective analysis of why supervision logs or documentation loops failed in the past, aiming for sustainable, systemic solutions.")
 
 # ----------------- PHASE II VIEW -----------------
 elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
@@ -453,7 +448,7 @@ elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
         
     # CARRYOVER LOGIC: Phase I to Phase II
     phase1_tasks = audit_db["Phase I"]["tasks"]
-    p1_non_compliant_keys = [tid for tid in phase1_tasks.keys() if not st.session_state.appraisal_audit_v5[tid]["compliant"]]
+    p1_non_compliant_keys = [tid for tid in phase1_tasks.keys() if not st.session_state.appraisal_audit_v4[tid]["compliant"]]
     
     if p1_non_compliant_keys:
         st.markdown('<div class="cascade-alert">', unsafe_allow_html=True)
@@ -484,7 +479,7 @@ elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
         st.markdown(f"**{task_info['label']}**")
         
         # Pull current state
-        curr_state = st.session_state.appraisal_audit_v5[task_id]["compliant"]
+        curr_state = st.session_state.appraisal_audit_v4[task_id]["compliant"]
         
         col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
@@ -500,38 +495,18 @@ elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
             )
         
         # Save to session state
-        st.session_state.appraisal_audit_v5[task_id]["compliant"] = (status_val == "Compliant")
+        st.session_state.appraisal_audit_v4[task_id]["compliant"] = (status_val == "Compliant")
         
         # Render remediation instructions if marked Non-Compliant
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remedy-banner">'
-                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
-                f'</div>',
+                f'<div class="remedy-banner">'\
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'\
+                f'</div>',\
                 unsafe_allow_html=True
             )
             
         st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
-    st.markdown("#### **🧠 CLIFTONSTRENGTHS: PHASE II LEADERSHIP**")
-    st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to drive Phase II operational and financial audits:")
-    
-    with st.expander("🎓 Learner® — Prior Authorization & Turnaround Time Analytics"):
-        st.write("**Operational Example:** Deeply study and master the differing prior authorization thresholds across diverse Prepaid Inpatient Health Plans (PIHPs) and Medicaid Health Plans (MCOs) in Wayne, Oakland, and Macomb counties (e.g., Meridian's 8-hour annual calendar limit vs. DWIHN's immediate bundled PA specialty codes).")
-        st.write("**Unique Opportunity:** Seamlessly digests and unifies fragmented, dry regional guidelines into a single, comprehensive knowledge matrix. Scott can then translate this into concrete EHR scheduling hard stops that protect the clinic from conducting uncompensated diagnostic testing.")
-    with st.expander("🎯 Strategic® — Pattern Mapping of CPT Denials & NCCI Edits"):
-        st.write("**Operational Example:** Analyze a 12-month historical claims database of CPT codes 96130–96139 to identify clearinghouse edit rejections. Specifically target same-day dual billing conflicts between providers and technicians (CPT 96136 and 96138).")
-        st.write("**Unique Opportunity:** Instantly spots systemic billing denial patterns (such as CO-97 bundled services). This enables Scott to hardcode EHR billing validation rules and establish clear Modifier XE/59 guidelines that automatically resolve claims and maximize reimbursement realization rates.")
-    with st.expander("🤝 Individualization® — Segmented Turnaround Time (TAT) Coaching"):
-        st.write("**Operational Example:** Analyze individual clinician TAT metrics by dividing EHR timestamp data into three segments: referral-to-auth, auth-to-testing, and testing-to-signed-report.")
-        st.write("**Unique Opportunity:** Allows Scott to deliver personalized, supportive performance counseling. Instead of sending generic, punitive emails about late reports, he analyzes why a specific clinician is bottlenecked (e.g., scoring vs. writing) and provides custom-tailored interventions.")
-    with st.expander("💡 Ideation® — Digital Scoring Transitions"):
-        st.write("**Operational Example:** Brainstorm digital scoring alternatives (like Pearson Q-interactive, PARiConnect, WPS) to transition the clinical team away from traditional, manual paper scoring protocols.")
-        st.write("**Unique Opportunity:** Visualizes creative, non-linear digital workflows—such as configuring EHR telehealth modules to automatically append virtual Modifier 95/GT and POS codes (02/10) when virtual video feedback links are generated, streamlining remote reimbursement.")
-    with st.expander("🔍 Intellection® — Cost-Benefit Cost Allocation Analyses"):
-        st.write("**Operational Example:** Perform a detailed overhead cost-benefit analysis of physical testing kits and digital scoring licenses.")
-        st.write("**Unique Opportunity:** Drives rigorous financial introspection, calculating cost-per-assessment overhead ratios to prove the long-term ROI of migrating the department to complete digital psychometric platforms under a flat CCBHC prospective payment rate.")
 
 # ----------------- PHASE III VIEW -----------------
 elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
@@ -544,7 +519,7 @@ elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
         
     # CARRYOVER LOGIC: Phase II to Phase III
     phase2_tasks = audit_db["Phase II"]["tasks"]
-    p2_non_compliant_keys = [tid for tid in phase2_tasks.keys() if not st.session_state.appraisal_audit_v5[tid]["compliant"]]
+    p2_non_compliant_keys = [tid for tid in phase2_tasks.keys() if not st.session_state.appraisal_audit_v4[tid]["compliant"]]
     
     if p2_non_compliant_keys:
         st.markdown('<div class="cascade-alert">', unsafe_allow_html=True)
@@ -575,7 +550,7 @@ elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
         st.markdown(f"**{task_info['label']}**")
         
         # Pull current state
-        curr_state = st.session_state.appraisal_audit_v5[task_id]["compliant"]
+        curr_state = st.session_state.appraisal_audit_v4[task_id]["compliant"]
         
         col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
@@ -591,38 +566,18 @@ elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
             )
         
         # Save to session state
-        st.session_state.appraisal_audit_v5[task_id]["compliant"] = (status_val == "Compliant")
+        st.session_state.appraisal_audit_v4[task_id]["compliant"] = (status_val == "Compliant")
         
         # Render remediation instructions if marked Non-Compliant
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remedy-banner">'
-                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
-                f'</div>',
+                f'<div class="remedy-banner">'\
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'\
+                f'</div>',\
                 unsafe_allow_html=True
             )
             
         st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
-    st.markdown("#### **🧠 CLIFTONSTRENGTHS: PHASE III LEADERSHIP**")
-    st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to synthesize findings and build the 12-month roadmap:")
-    
-    with st.expander("🎓 Learner® — Continuous Quality Improvement (CQI) Integration"):
-        st.write("**Operational Example:** Deeply research and incorporate the latest evidence-based clinical screening standards and State-designated level-of-care frameworks (LOCUS/MichiCANS) into the final executive report and ongoing staff curriculum.")
-        st.write("**Unique Opportunity:** Fuses state guidelines with clinical excellence. This ensures the final 'State of Psychological Testing' appraisal report functions as a highly sophisticated, scientifically-defensible masterwork that justifies the department's costs during cost-based rate rebasing.")
-    with st.expander("🎯 Strategic® — Roadmap Prioritization & Executive Consensus"):
-        st.write("**Operational Example:** Filter through all audited operational, financial, and clinical gaps to present the executive board with the top three high-impact optimization priorities in the 12-month roadmap.")
-        st.write("**Unique Opportunity:** Cuts through complex diagnostic metrics to present a razor-sharp business case to non-clinical executives, successfully securing capital budgets for digital platform interoperability and LARA log centralization.")
-    with st.expander("🤝 Individualization® — Strengths-Aligned Team Transition"):
-        st.write("**Operational Example:** Plan the transition of the testing department toward the newly formulated clinical and billing protocols, delegating specific roles to staff LLPs and LPs.")
-        st.write("**Unique Opportunity:** Matches transition roles to the specific strengths and clinical preferences of individual team members. This maximizes clinician buy-in, lowers friction during the digital transition, and prevents staff burnout.")
-    with st.expander("💡 Ideation® — Stepped-Care Clinical Algorithm"):
-        st.write("**Operational Example:** Design the clinical triage algorithm for the Stepped-Care Assessment Model to resolve low-acuity cases using brief screenings (CPT 96127) at intake.")
-        st.write("**Unique Opportunity:** Conceives a highly original, creative clinical pathway that filters low-acuity diagnostic questions early. This preserves psychologist FTE capacity and reserves intensive psychometric testing exclusively for severe SMI/SED differential diagnoses, systematically eliminating waitlist bottlenecks.")
-    with st.expander("🔍 Intellection® — High-Fidelity KPI Dashboard Design"):
-        st.write("**Operational Example:** Select and wireframe the exact clinical and financial metrics to track on the live, EHR-integrated Business Intelligence dashboard.")
-        st.write("**Unique Opportunity:** Introspectively conceptualizes the most high-fidelity, high-impact clinical-financial metrics (volume, report TAT, denials, waitlists, and cost-per-assessment) to provide leadership with real-time, long-term operational oversight.")
 
 # ----------------- PROGRESS & FINDINGS REPORT VIEW -----------------
 elif phase_selector == "Progress & Findings Report (Executive Tab)":
@@ -643,7 +598,7 @@ elif phase_selector == "Progress & Findings Report (Executive Tab)":
     
     for phase_name, phase_info in audit_db.items():
         for task_id, task_info in phase_info["tasks"].items():
-            is_comp = st.session_state.appraisal_audit_v5[task_id]["compliant"]
+            is_comp = st.session_state.appraisal_audit_v4[task_id]["compliant"]
             all_tasks.append((task_id, task_info, phase_info["title"], is_comp))
             if is_comp:
                 compliant_count += 1
@@ -687,9 +642,9 @@ elif phase_selector == "Progress & Findings Report (Executive Tab)":
             st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #FFCDD2;'><strong>Active Vulnerability:</strong> {t_info['rationale']}</p>", unsafe_allow_html=True)
             
             st.markdown(
-                f'<div class="remedy-banner">'
-                f'🛠️ <strong>REMEDIATION DIRECTIVE:</strong> {t_info["remediation"]}'
-                f'</div>',
+                f'<div class="remedy-banner">'\
+                f'🛠️ <strong>REMEDIATION DIRECTIVE:</strong> {t_info["remediation"]}'\
+                f'</div>',\
                 unsafe_allow_html=True
             )
             st.markdown("</div>", unsafe_allow_html=True)
