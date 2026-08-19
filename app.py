@@ -2,317 +2,405 @@ import streamlit as st
 
 # Set Streamlit Page Configuration - optimized for Samsung Galaxy S26 Ultra (high-res vertical viewport)
 st.set_page_config(
-    page_title="90-Day Psychological Services Appraisal App",
-    page_icon="💜",
+    page_title="90-Day Psychological Services Appraisal Portal",
+    page_icon="🧬",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Premium Purple, Green, and White CSS styling (Samsung OneUI aesthetic)
+# Custom CSS for Dark Purple, Digital Scientific & Matrix-inspired theme (Purple, Green, and White color scheme)
 st.markdown("""
 <style>
-    /* Main body styling */
+    /* Main body background & Scientific-Digital canvas layout */
     .stApp {
-        background-color: #F9F8FC;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: radial-gradient(circle at center, #1E052D 0%, #0C0117 100%) !important;
+        color: #FFFFFF !important;
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif !important;
+        position: relative;
     }
     
-    /* Device frame mockup for Samsung S26 Ultra */
+    /* Glowing digital grid overlay */
+    .stApp::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: 
+            linear-gradient(rgba(0, 255, 102, 0.015) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 102, 0.015) 1px, transparent 1px);
+        background-size: 25px 20px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Device frame mockup for Samsung S26 Ultra centered canvas */
     @media (min-width: 450px) {
         .block-container {
             max-width: 440px !important;
             padding: 24px !important;
-            background: #FFFFFF;
-            border-radius: 36px;
-            box-shadow: 0 24px 80px rgba(74, 21, 75, 0.08);
-            margin-top: 15px;
-            margin-bottom: 25px;
-            border: 8px solid #3A103B; /* Premium Dark Purple Frame */
+            background: rgba(18, 4, 30, 0.95) !important;
+            border-radius: 40px !important;
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.15) !important;
+            margin-top: 15px !important;
+            margin-bottom: 25px !important;
+            border: 4px solid #4E146F !important; /* Deep Purple Frame */
+            position: relative;
+            z-index: 1;
         }
     }
     
-    /* Sleek card styling */
+    /* Scientific holographic card styling */
     .app-card {
-        background: #FFFFFF;
-        border-radius: 18px;
-        padding: 16px;
-        margin-bottom: 16px;
-        box-shadow: 0 4px 20px rgba(74, 21, 75, 0.02);
-        border: 1px solid #ECE6F0; /* Purple-tinted border */
+        background: rgba(30, 8, 48, 0.75) !important;
+        border: 1px solid rgba(0, 255, 102, 0.2) !important;
+        border-radius: 16px !important;
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(10px) !important;
+        transition: all 0.3s ease !important;
+    }
+    .app-card:hover {
+        border-color: rgba(0, 255, 102, 0.6) !important;
+        box-shadow: 0 0 15px rgba(0, 255, 102, 0.25) !important;
     }
     
-    /* Premium Header elements */
+    /* Glowing typography headers */
     .app-title {
-        font-size: 26px !important;
-        font-weight: 800 !important;
-        color: #4A154B; /* Deep Purple */
-        text-align: center;
-        margin-bottom: 2px;
-        letter-spacing: -0.6px;
+        font-size: 24px !important;
+        font-weight: 900 !important;
+        color: #FFFFFF !important;
+        text-shadow: 0 0 15px rgba(0, 255, 102, 0.6) !important;
+        text-align: center !important;
+        font-family: 'Courier New', Courier, monospace !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 2px !important;
     }
     
     .app-subtitle {
-        font-size: 13px;
-        color: #7A8B7B; /* Muted Green-Gray */
-        text-align: center;
-        margin-bottom: 24px;
-        font-weight: 500;
+        font-size: 11px !important;
+        color: #00FF66 !important; /* Matrix/Vibrant Green */
+        text-align: center !important;
+        font-family: 'Courier New', Courier, monospace !important;
+        letter-spacing: 2px !important;
+        margin-bottom: 24px !important;
+        text-transform: uppercase !important;
+        font-weight: bold !important;
     }
     
-    /* Headers inside the cards */
-    .section-header {
-        font-size: 16px;
-        font-weight: 700;
-        color: #4A154B;
-        border-bottom: 2px solid #E8F5E9; /* Green Accent border */
-        padding-bottom: 6px;
-        margin-bottom: 12px;
-    }
-    
-    /* Color-coded tags */
-    .policy-badge {
+    /* Policy and Target digital readouts */
+    .policy-label {
         font-size: 11px;
         font-weight: 700;
-        background-color: #F3E5F5; /* Light Purple */
-        color: #4A154B; /* Deep Purple */
+        background-color: rgba(78, 20, 111, 0.4); /* Purple tint */
+        color: #E1BEE7; /* Light Purple text */
         padding: 4px 10px;
-        border-radius: 12px;
+        border-radius: 8px;
         display: inline-block;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+        border: 1px solid rgba(78, 20, 111, 0.6);
+        font-family: monospace;
     }
     
-    .target-badge {
+    .target-label {
         font-size: 11px;
         font-weight: 700;
-        background-color: #E8F5E9; /* Light Green */
-        color: #2E7D32; /* Rich Green */
+        background-color: rgba(0, 255, 102, 0.08); /* Green tint */
+        color: #00FF66; /* Vibrant Green text */
         padding: 4px 10px;
-        border-radius: 12px;
+        border-radius: 8px;
         display: inline-block;
-        margin-bottom: 10px;
-        margin-left: 5px;
+        margin-bottom: 8px;
+        margin-left: 4px;
+        border: 1px solid rgba(0, 255, 102, 0.3);
+        font-family: monospace;
     }
 
-    /* Remediation protocols card */
-    .remediation-box {
-        background-color: #FFF9C4; /* Warm yellow/amber highlight */
-        padding: 12px;
-        border-radius: 12px;
-        border-left: 5px solid #FBC02D;
-        margin-top: 10px;
-        font-size: 12px;
-        color: #5D4037;
+    /* Customized Popover Button (Scientific Bubble Node) */
+    div.stPopover > button {
+        background-color: rgba(0, 255, 102, 0.05) !important;
+        border: 1px solid rgba(0, 255, 102, 0.3) !important;
+        color: #00FF66 !important;
+        border-radius: 8px !important;
+        font-size: 10px !important;
+        font-family: 'Courier New', Courier, monospace !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        padding: 2px 8px !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 0 5px rgba(0, 255, 102, 0.1) !important;
+    }
+    div.stPopover > button:hover {
+        background-color: rgba(0, 255, 102, 0.15) !important;
+        border-color: #00FF66 !important;
+        box-shadow: 0 0 10px rgba(0, 255, 102, 0.4) !important;
+        color: #FFFFFF !important;
     }
     
-    /* Carryover Alert styling */
-    .carryover-alert-box {
-        background-color: #FFEBEE;
-        padding: 12px;
-        border-radius: 12px;
-        border-left: 5px solid #D32F2F;
-        margin-bottom: 16px;
-        font-size: 12px;
-        color: #C62828;
+    /* Dialog/Popover Inner styling */
+    .bubble-header {
+        font-size: 14px;
+        color: #00FF66;
+        font-family: monospace;
+        font-weight: bold;
+        border-bottom: 1px solid rgba(0, 255, 102, 0.3);
+        padding-bottom: 4px;
+        margin-bottom: 8px;
     }
     
-    /* HR style dividers */
-    .purple-divider {
+    .bubble-policy {
+        font-size: 11px;
+        color: #E1BEE7;
+        background: rgba(78, 20, 111, 0.3);
+        padding: 6px;
+        border-radius: 6px;
+        border-left: 3px solid #9C27B0;
+        margin-bottom: 8px;
+    }
+
+    /* Standardized remedial and alert styles */
+    .remedy-banner {
+        background-color: rgba(251, 192, 45, 0.1) !important;
+        border-left: 4px solid #FBC02D !important;
+        border: 1px solid rgba(251, 192, 45, 0.25) !important;
+        padding: 12px !important;
+        border-radius: 8px !important;
+        margin-top: 10px !important;
+        font-size: 12px !important;
+        color: #FFE082 !important;
+    }
+    
+    .cascade-alert {
+        background-color: rgba(211, 47, 47, 0.12) !important;
+        border: 1px solid rgba(211, 47, 47, 0.3) !important;
+        border-left: 5px solid #D32F2F !important;
+        padding: 12px !important;
+        border-radius: 12px !important;
+        margin-bottom: 16px !important;
+        font-size: 12px !important;
+        color: #FFCDD2 !important;
+    }
+
+    /* Scientific matrix-like dividers */
+    .digital-divider {
         height: 2px;
-        background: linear-gradient(to right, #4A154B, #2E7D32, #FFFFFF);
+        background: linear-gradient(to right, rgba(0, 255, 102, 0.5), rgba(78, 20, 111, 0.8), transparent);
         border: none;
         margin: 15px 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Title & Metadata mockups
-st.markdown('<div class="app-title">CNS HEALTHCARE</div>', unsafe_allow_html=True)
-st.markdown('<div class="app-subtitle">90-Day Psychological Services Appraisal Portal</div>', unsafe_allow_html=True)
+# Title & Digital Metadata Header
+st.markdown('<div class="app-title">SYS_DIAGNOSTIC_PORTAL</div>', unsafe_allow_html=True)
+st.markdown('<div class="app-subtitle">CNS PSYCH_SERVICES 90-DAY APPRAISAL v5.0</div>', unsafe_allow_html=True)
 
-# Define our structured objectives, tasks, targets, and policies strictly from the Word document
-audit_definitions = {
-    "Phase I: Assessment & Baseline (Days 1–30)": {
+# Structured objectives, tasks, targets, and policies strictly from the 90-Day Psychological Services Appraisal Plan.docx
+audit_db = {
+    "Phase I": {
+        "title": "Phase I: Baseline Discovery (Days 1–30)",
+        "diagnostic_rationale": "Focuses on regulatory discovery and clinical baseline mapping across Wayne, Oakland, and Macomb clinics. Under the CCBHC model, establishing an empirical clinical baseline is critical prior to system re-engineering.",
         "tasks": {
             "p1_t1": {
-                "label": "Verify Limited License Psychologist (LLP) Supervision Logs.",
-                "policy": "Michigan Public Health Code MCL 333.18223 & LARA Rule 338.2569: Requires LLPs to document at least 4 hours/month of individual, face-to-face supervision on Form LARA/BPL Rev. 6/25.",
-                "target": "100% compliance with LARA MCL 333.18223 (4 hrs/mo individual)",
-                "remediation": "Immediately halt unsupervised LLP billing to avoid recoupment. Establish automated HR tracking for Psychology Supervision Evaluation forms (Rev. 6/25) and mandate co-signatures in the EHR before claim release.",
-                "risk_category": "Licensure & LARA Compliance",
-                "risk_vulnerability": "Failure of an LP to provide or document mandated LLP supervision hours.",
-                "risk_impact": "Disciplinary action against LP/LLP licenses; catastrophic retroactive Medicaid clawback audits for years of billed PPS encounters."
+                "label": "Verify LLP Supervision Logs",
+                "policy_short": "MCL 333.18223 & LARA Rule 338.2569",
+                "policy_long": "Michigan Public Health Code MCL 333.18223 & LARA Rule 338.2569: Dictates that Limited License Psychologists (LLPs) receive at least 4 hours/month face-to-face supervision on Form LARA/BPL Rev 6/25.",
+                "target": "100% compliant LARA logs",
+                "desc_long": "Examine supervisory files for all LLPs and Temporary LLPs. Verify that psychology logs are signed by fully Licensed Psychologists (LPs) and that LPs co-sign LLP-written notes in the EHR before billing release.",
+                "rationale": "Unsupervised LLP clinical activity is a direct violation of licensure law, exposing CNS Healthcare to severe state disciplinary actions and catastrophic retroactive Medicaid recoupments for billed encounters.",
+                "remediation": "Immediately suspend unsupervised LLP billing. Relocate LLP logs to a centralized, automated HR portal. Hardcode EHR co-signature routing blocks to prevent claim release until LP sign-off is completed."
             },
             "p1_t2": {
-                "label": "Audit 30 completed psychological/neuropsychological testing charts.",
-                "policy": "CPT Manual Definitions & Medicare LCD guidelines: Under CPT 96130, first-hour evaluation requires documented clinical decision-making and face-to-face interactive feedback.",
-                "target": "100% presence of interactive feedback documentation for CPT 96130",
-                "remediation": "Perform self-disclosure and adjust billing for un-documented feedback. Mandate structured EHR templates for 96130 that explicitly require a timestamped section titled 'Interactive Feedback and Clinical Decision Making' before note locking.",
-                "risk_category": "Coding Specificity",
-                "risk_vulnerability": "Improper use of 96130 or failing to document the 'interactive feedback' component.",
-                "risk_impact": "Fraud, Waste, and Abuse (FWA) compliance risks; severe clawbacks from Medicaid/Commercial payers during routine audits."
+                "label": "Audit 30 Completed Charts",
+                "policy_short": "CPT 96130 Interactive Feedback",
+                "policy_long": "CPT Manual Definitions & Medicare LCD guidelines: Under CPT 96130, first-hour evaluation requires documented clinical decision-making and face-to-face interactive feedback with the client or caregiver.",
+                "target": "100% documented feedback in EHR",
+                "desc_long": "Conduct a manual, randomized chart extraction of 30 recently completed evaluations. Scrutinize time logs to ensure CPT 96130 contains at least 31 minutes of provider time and that technician-administered codes (96138) are correctly segregated.",
+                "rationale": "Billing CPT 96130 without documenting interactive feedback is a billing infraction. Failing this audit indicates high exposure to Medicaid/Commercial payer recoupments and Fraud, Waste, and Abuse (FWA) scrutiny.",
+                "remediation": "Perform billing self-disclosures on missing logs. Deploy mandatory EHR evaluation templates that physically prevent note-locking until a timestamped 'Interactive Feedback and Clinical Decision Making' section is filled."
             },
             "p1_t3": {
-                "label": "Shadow intake and referral triage workflows.",
-                "policy": "SAMHSA CCBHC Access Criteria (2023) & MDHHS CCBHC Handbook: Mandates timely, unimpeded access to care and clear referral velocity tracking.",
-                "target": "Map 100% of the lifecycle from referral to scheduling",
-                "remediation": "Map administrative handoffs and interaction with Prepaid Inpatient Health Plan (PIHP) portals (MHWIN/CHAMPS) to isolate bottleneck points causing scheduling delays.",
-                "risk_category": "CCBHC Compliance",
-                "risk_vulnerability": "Waitlist duration for testing exceeds the SAMHSA/MDHHS mandated timelines for routine or urgent access.",
-                "risk_impact": "Corrective Action Plan (CAP) from the state; potential threat to CCBHC demonstration status and vital PPS funding."
+                "label": "Shadow Triage Workflows",
+                "policy_short": "SAMHSA CCBHC Access velocity",
+                "policy_long": "SAMHSA 2023 CCBHC Certification Criteria: Requires timely, unimpeded access to care (such as routine evaluation initiation within 10-14 days and urgent care within 1 business day).",
+                "target": "Map 100% of pipeline lifecycle",
+                "desc_long": "Observe intake and triage personnel. Track a psychological testing referral from initial request through the EHR queue and map staff interactions with PIHP prior authorization portals (like MHWIN for DWIHN and CHAMPS).",
+                "rationale": "Extended waiting periods for diagnostic testing delay treatment entry. This can trigger MDHHS Corrective Action Plans (CAPs) and jeopardize CCBHC certification.",
+                "remediation": "Construct process maps of administrative handoffs, identify delays within PIHP portals, and establish streamlined scheduling protocols to meet access benchmarks."
             },
             "p1_t4": {
-                "label": "Survey internal prescribers, outpatient therapists, and external stakeholders.",
-                "policy": "CARF Accreditation Standards & CCBHC care coordination: Assesses clinical utility, readability, and diagnostic clarity of psychological reports.",
-                "target": ">80% response rate from top 20 referring clinicians",
-                "remediation": "Review the survey results on report readability; standardize report structures to contain standard, actionable interdisciplinary recommendations.",
-                "risk_category": "Clinical Quality",
-                "risk_vulnerability": "Completed reports do not effectively penetrate the Person-Centered Plan (PCP) or guide treatment.",
-                "risk_impact": "Failure of the CCBHC integrated care model; clinical reports act as isolated, low-impact administrative exercises."
+                "label": "Survey Clinical Stakeholders",
+                "policy_short": "CARF Report Utility Standards",
+                "policy_long": "CARF Accreditation Standards & CCBHC care coordination: Demands that clinical assessments have recognized utility and directly integrate into the Person-Centered Plan (PCP).",
+                "target": ">80% clinician response rate",
+                "desc_long": "Send digital surveys and conduct interviews with internal psychiatric prescribers, outpatient therapists, and external regional stakeholders to grade the readability, diagnostic clarity, and utility of clinical reports.",
+                "rationale": "If diagnostic reports fail to influence the PCP, the testing operates as an isolated, high-cost administrative exercise rather than a therapeutic driver.",
+                "remediation": "Analyze qualitative gaps in report readability. Standardize report structures to mandate a summary block containing actionable, interdisciplinary recommendations."
             }
         }
     },
-    "Phase II: Operational Analysis & Gap Assessment (Days 31–60)": {
+    "Phase II": {
+        "title": "Phase II: Operational Analysis (Days 31–60)",
+        "diagnostic_rationale": "Transition from discovery to data-driven operational analysis. This phase mathematically quantifies workflow bottlenecks, coding leaks, and utilization management gaps across the 12-month historical claims.",
         "tasks": {
             "p2_t1": {
-                "label": "Conduct CPT 96130-96139 billing denial audit.",
-                "policy": "RCM Clearinghouse 835 Remittance Guidelines: Standardizes claims evaluation based on coding accuracy, bundling, and medical necessity.",
-                "target": "Identify top 3 denial reason codes for psychological testing",
-                "remediation": "Collaborate with RCM/billing teams to extract a 12-month claims dataset. Segment and analyze denial codes like CO-97 (bundled services) and CO-50 (medical necessity) to target corrective training.",
-                "risk_category": "Revenue Cycle Integrity",
-                "risk_vulnerability": "Unresolved automated clearinghouse denials due to structural billing mismatch.",
-                "risk_impact": "Massive compounding revenue leakage and administrative burden for retroactive, uncompensated billing appeals."
+                "label": "RCM Claims Denial Audit",
+                "policy_short": "RCM 835 Remittance Guidelines",
+                "policy_long": "Revenue Cycle Management Standard Billing: standardizes claims processing based on coding accuracy, bundling guidelines, and medical necessity.",
+                "target": "Identify top 3 testing denial codes",
+                "desc_long": "Collaborate with the CNS billing department to extract a 12-month historical database of claims involving CPT codes 96130–96139. Segment and audit denial codes like CO-97 (bundled services) and CO-50 (medical necessity).",
+                "rationale": "Unresolved clearinghouse denials represent a major source of revenue leakage and impose an excessive administrative burden on staff doing manual retroactive billing appeals.",
+                "remediation": "Extract the 12-month 835 remittance data, isolate clearinghouse edit rules causing rejections, and correct structural coding errors at the point of scheduling."
             },
             "p2_t2": {
-                "label": "Execute CPT Modifier 59 / XE compliance audit.",
-                "policy": "CMS National Correct Coding Initiative (NCCI) Edits & MDHHS Billing Manual: Prohibits same-day psychologist test administration (96136) and tech administration (96138) without distinguishing modifiers.",
-                "target": "100% accuracy on same-day provider (96136) and tech (96138) billing",
-                "remediation": "Hardcode EHR billing validation rules to automatically flag same-day administration codes. Train billing staff on correctly applying Modifier XE or Modifier 59 to release blocked claims.",
-                "risk_category": "Revenue Cycle (NCCI)",
-                "risk_vulnerability": "Billing provider (96136) and technician (96138) administration on same date without Modifier 59 or XE.",
-                "risk_impact": "Immediate, automated claims denial; post-payment Fraud, Waste, and Abuse (FWA) compliance audit scrutiny."
+                "label": "Modifier 59 / XE Audit",
+                "policy_short": "CMS NCCI Modifier Edits",
+                "policy_long": "CMS National Correct Coding Initiative (NCCI) Edits: Prohibits billing provider-administered testing (96136) and technician-administered testing (96138) on the same date for the same consumer without distinct modifiers.",
+                "target": "100% same-day billing accuracy",
+                "desc_long": "Review same-day clinical testing entries to verify if Billing Modifier 59 (distinct procedural service) or Modifier XE (separate encounter) are correctly applied to prevent automated rejections.",
+                "rationale": "Same-day testing administration by a psychologist and a technician automatically triggers a CMS NCCI denial, locking up revenue and leading to billing backlog.",
+                "remediation": "Hardcode NCCI validation rules within the EHR's billing module to automatically append Modifier XE/59 when same-day dual-provider testing encounters are logged."
             },
             "p2_t3": {
-                "label": "Audit remote CPT 96130 feedback session telehealth modifiers.",
-                "policy": "MDHHS Telehealth Policy & Commercial Payer Guidelines: Requires specific telehealth Modifiers (95/GT) and Place of Service (POS 02/10) to secure virtual feedback reimbursement.",
-                "target": "100% compliance with remote feedback session coding",
-                "remediation": "Configure the EHR telehealth module to automatically append Modifier 95/GT and POS 02/10 whenever a virtual link is generated for a psychological testing encounter.",
-                "risk_category": "Telehealth Regulations",
-                "risk_vulnerability": "Providing remote feedback sessions without appropriate POS and Modifiers.",
-                "risk_impact": "Claim denial or underpayment due to improper site-of-service identification, artificially suppressing realization rates."
+                "label": "Telehealth Modifier Audit",
+                "policy_short": "MDHHS Telehealth Billing Rules",
+                "policy_long": "MDHHS Telehealth Policy: Requires virtual psychological services to append specific Modifiers (95 or GT) and Place of Service codes (POS 02 or 10) to secure valid reimbursement.",
+                "target": "100% compliant virtual feedback coding",
+                "desc_long": "Audit virtual CPT 96130 feedback sessions to ensure modifiers 95/GT and location markers POS 02 (telehealth home) or 10 are aligned with patient location.",
+                "rationale": "Missing telehealth modifiers or incorrect POS codes cause immediate claim rejections, artificially depressing realization rates.",
+                "remediation": "Configure the EHR telehealth video module to auto-generate and attach the correct virtual POS and 95 modifier when clinical feedback is delivered via the clinic's digital interface."
             },
             "p2_t4": {
-                "label": "Assess workflow navigation of differing PIHP/MCO Prior Authorization (PA) rules.",
-                "policy": "Michigan Medicaid Provider Manual: Governs prior authorization limits and tracking.",
-                "target": "Establish centralized workflow for tracking PIHP/MCO PA thresholds",
-                "remediation": "Embed an EHR scheduling hard stop that blocks testing appointments exceeding 8 hours annually (Meridian limit) without an active, attached PA number.",
-                "risk_category": "Utilization Management",
-                "risk_vulnerability": "Exceeding annual testing limits or failing to secure initial PA from regional PIHPs.",
-                "risk_impact": "Complete forfeiture of payment for the entire testing battery; uncompensated clinical labor by testing psychologists."
+                "label": "PA Limit Tracking",
+                "policy_short": "Medicaid Prior Authorization Rules",
+                "policy_long": "Michigan Medicaid Provider Manual: Governs prior authorization limits, thresholds, and tracking policies across regional Prepaid Inpatient Health Plans.",
+                "target": "Centralize PA threshold mapping",
+                "desc_long": "Evaluate how the department tracks Meridian's 8-hour annual calendar limit before a PA is required, versus DWIHN's requirement for immediate bundled authorization using specialty codes.",
+                "rationale": "Failing to track annual testing thresholds or executing testing without securing prior authorization results in complete forfeiture of payment, resulting in uncompensated clinical work.",
+                "remediation": "Implement a hard stop in the EHR scheduling system that blocks psychological testing bookings exceeding 8 hours annually unless an active PA number is attached."
             },
             "p2_t5": {
-                "label": "Measure mean and median Turnaround Time (TAT) across clinicians.",
-                "policy": "CARF Accreditation Standards & SAMHSA Access Metrics: Benchmarks timelines for clinical evaluation and rapid treatment initiation.",
-                "target": "Calculate median days from final test administration to signed report in EHR",
-                "remediation": "Segment EHR timestamp data into three intervals: referral-to-authorization, authorization-to-testing, and testing-to-signed-report. Isolate and counsel outlying clinicians.",
-                "risk_category": "CCBHC & CARF Access Timeline",
-                "risk_vulnerability": "Prolonged report turnaround times delaying treatment initiation.",
-                "risk_impact": "Violates the CCBHC care coordination mandate, delaying psychiatric and therapeutic interventions; triggers State CAPs."
+                "label": "Turnaround Time (TAT) Metrics",
+                "policy_short": "CARF Access & Timeliness Guidelines",
+                "policy_long": "CARF Quality Timelines: Benchmarks clinical report turnaround times to prevent delays in treatment initiation.",
+                "target": "Calculate median days from test to signed report",
+                "desc_long": "Extract EHR timestamps to measure mean and median Turnaround Times (TAT) from final testing date to final report signature, segmenting the clinician pool to isolate bottlenecks.",
+                "rationale": "Extended report TATs delay psychiatric prescriptions and therapeutic interventions, violating CCBHC care coordination standards.",
+                "remediation": "Segment EHR timestamp data into three distinct intervals (referral-to-auth, auth-to-testing, testing-to-signed) and counsel outlying clinicians with extended write times."
             },
             "p2_t6": {
-                "label": "Conduct financial overhead analysis of clinical testing batteries.",
-                "policy": "CCBHC PPS Cost Allocation Guidelines: Requires tracking expenditures against the daily encounter prospective payment rate.",
-                "target": "Establish cost-per-assessment ratio ( Pearson, PAR, WPS vendor invoices vs. claim volume)",
-                "remediation": "Cross-reference vendor invoices for digital scoring licenses (Q-interactive, PARiConnect) and consumable kits against Medicaid fee-for-service / PPS revenues to identify high-cost, low-yield instruments.",
-                "risk_category": "Financial Sustainability",
-                "risk_vulnerability": "High operational overhead of diagnostic kits not offset by encounter billing.",
-                "risk_impact": "Unrecognized department deficits and budget imbalances under the value-based CCBHC prospective payment system."
+                "label": "Financial Overhead Audit",
+                "policy_short": "CCBHC PPS Cost Allocation",
+                "policy_long": "CCBHC PPS Cost Reporting Guidelines: Mandates tracking material and software expenditures to offset operational costs against flat Prospective Payment System encounter rates.",
+                "target": "Establish cost-per-assessment ratio",
+                "desc_long": "Review vendor invoices for consumable paper forms and digital scoring platform licenses (Pearson Q-interactive, PARiConnect, WPS) and cross-reference against actual claim volumes.",
+                "rationale": "Unmonitored diagnostic kit and licensing expenses create unrecognized department deficits under the flat CCBHC daily payment model.",
+                "remediation": "Cross-reference all vendor invoices against Medicaid and PPS revenues to identify high-cost, low-yield testing kits, transitioning entirely to digital scoring to lower overhead."
             }
         }
     },
-    "Phase III: Synthesis & Strategic Recommendations (Days 61–90)": {
+    "Phase III": {
+        "title": "Phase III: Synthesis & Recommendations (Days 61–90)",
+        "diagnostic_rationale": "The final phase synthesizes clinical, financial, and regulatory data into an actionable strategic roadmap, establishing permanent quality improvement infrastructure and clinical pathways.",
         "tasks": {
             "p3_t1": {
-                "label": "Develop Stepped-Care Assessment clinical protocol.",
-                "policy": "SAMHSA CCBHC Core Service #2: Screening, Assessment, and Diagnosis. Mandates optimizing resource allocation and clinical triage workflows.",
-                "target": "Draft clinical pathway utilizing brief 96127 screenings prior to full testing",
-                "remediation": "Establish a rigid triage algorithm. Shift low-acuity diagnostic questions to brief screenings (96127 / 90791) at intake, reserving multi-hour, intensive batteries for complex differential diagnosis.",
-                "risk_category": "Utilization Efficiency",
-                "risk_vulnerability": "Highly trained psychologists conducting routine diagnostic work for low-acuity referrals.",
-                "risk_impact": "Artificially inflated waitlists for SMI/SED populations, causing critical bottleneck failures and CCBHC non-compliance."
+                "label": "Stepped-Care Protocol Design",
+                "policy_short": "SAMHSA CCBHC Core Service #2",
+                "policy_long": "SAMHSA CCBHC Core Service #2: Screening, Assessment, and Diagnosis. Requires the optimized allocation of highly trained psychological resources.",
+                "target": "Completed clinical triage algorithm",
+                "desc_long": "Design a clinical pathway that filters low-acuity cases using brief emotional screenings (CPT 96127) at intake, reserving intensive, multi-hour testing batteries (96130/96136/96138) for complex differential diagnosis.",
+                "rationale": "Conducting multi-day diagnostic testing for low-acuity referrals wastes psychologist FTE capacity, driving up waitlists for high-acuity SMI/SED populations.",
+                "remediation": "Develop and approve the Stepped-Care Assessment clinical algorithm, establishing a strict diagnostic intake screen to preserve testing resources."
             },
             "p3_t2": {
-                "label": "Establish ongoing Assessment KPI Dashboard.",
-                "policy": "CCBHC Continuous Quality Improvement (CQI) Plan: Demands data-driven performance monitoring for clinical management.",
-                "target": "Track 5 core metrics on a live EHR/BI dashboard (Volume, TAT, Denials, Waitlist, Cost)",
-                "remediation": "Coordinate with IT to configure a Business Intelligence dashboard inside the EHR, giving leadership real-time visibility over weekly referral volumes and clinician performance.",
-                "risk_category": "Oversight and Accountability",
-                "risk_vulnerability": "Lack of high-fidelity, real-time tracking leading to administrative and clinical regressions.",
-                "risk_impact": "Unrecognized operational bottlenecks and unresolved billing errors leading to compounding revenue loss over time."
+                "label": "EHR KPI Dashboard",
+                "policy_short": "CCBHC CQI Performance Monitoring",
+                "policy_long": "CCBHC Continuous Quality Improvement Plan: Demands high-fidelity, data-driven performance monitoring for clinical and financial management.",
+                "target": "Track 5 core metrics on a live EHR/BI dashboard",
+                "desc_long": "Configure and wireframe a real-time Assessment KPI Dashboard inside the EHR or connected BI platform, tracking weekly referral volume, TAT, denials, waitlist size, and cost.",
+                "rationale": "A lack of ongoing, visual tracking tools leads to unrecognized bottlenecks and billing errors, resulting in compounding financial and operational regressions.",
+                "remediation": "Coordinate with IT to configure a live, EHR-integrated Business Intelligence dashboard that gives management immediate visibility over clinician performance and claims denials."
             },
             "p3_t3": {
-                "label": "Deliver formal 'State of Psychological Testing' Executive Appraisal Report.",
-                "policy": "MDHHS & SAMHSA CCBHC Demonstration Guidelines: Mandates rigorous administrative and clinical oversight of certified services.",
-                "target": "Submit comprehensive operational and financial analysis document to executive board",
-                "remediation": "Assemble all manual chart audit findings, billing denial patterns, and overhead metrics into a formalized, high-impact document to secure leadership approval.",
-                "risk_category": "Regulatory Fidelity",
-                "risk_vulnerability": "Omission of documented appraisal findings regarding psychological testing service lines.",
-                "risk_impact": "Non-compliance with State certification requirements; inability to justify cost-based rate rebasing in future demonstration years."
+                "label": "Executive Appraisal Report",
+                "policy_short": "MDHHS Demonstration Oversight",
+                "policy_long": "MDHHS & SAMHSA CCBHC Demonstration Guidelines: Mandates regular, documented clinical and administrative evaluations of certified service lines.",
+                "target": "Submit comprehensive report to executive board",
+                "desc_long": "Assemble all baseline chart audits, modifier denial rates, and kit cost overhead analyses into a formalized 'State of Psychological Testing' Executive Appraisal Report.",
+                "rationale": "Omission of documented appraisal findings violates state certification rules and limits the agency's ability to justify cost-based rate rebasing in future demonstration years.",
+                "remediation": "Synthesize all Phase I and II findings into the formalized executive report, securing final signatures from clinical and financial leadership."
             },
             "p3_t4": {
-                "label": "Present 12-month strategic roadmap.",
-                "policy": "CCBHC Certification Program requirement #6: Strategic Planning & Capital Investment.",
-                "target": "Secure executive consensus and approval of top 3 optimization priorities",
-                "remediation": "Formally present the roadmap outlining capital investments (such as digital scoring platform interoperability), centralized LARA tracking, and coding modifier compliance training.",
-                "risk_category": "Long-Term Sustainability",
-                "risk_vulnerability": "Failure to plan for systemic, long-term capital investments in psychological service lines.",
-                "risk_impact": "Operational stagnation, persistent staff burnout due to EHR administrative burdens, and ongoing financial leaks."
+                "label": "12-Month Strategic Roadmap",
+                "policy_short": "CCBHC Program Requirement #6",
+                "policy_long": "CCBHC Certification Program Requirement #6: Strategic Planning and Capital Investment. Mandates strategic, long-term planning for certified service lines.",
+                "target": "Secure leadership approval on top 3 priorities",
+                "desc_long": "Present the completed 12-month strategic roadmap to the executive board, detailing necessary capital investments (EHR digital scoring integrations), centralized LARA logs, and CPT modifier training.",
+                "rationale": "Failure to plan for long-term capital investments results in operational stagnation, persistent clinician burnout, and unresolved financial leakage.",
+                "remediation": "Present the 12-month roadmap to the executive board to secure budget allocation and strategic alignment for the top three operational priorities."
             }
         }
     }
 }
 
 # Initialize Session State for audit data
-if 'appraisal_audit' not in st.session_state:
-    st.session_state.appraisal_audit = {}
-    for phase_name, phase_info in audit_definitions.items():
+if 'appraisal_audit_v5' not in st.session_state:
+    st.session_state.appraisal_audit_v5 = {}
+    for phase_id, phase_info in audit_db.items():
         for task_id, task_info in phase_info["tasks"].items():
-            st.session_state.appraisal_audit[task_id] = {
+            st.session_state.appraisal_audit_v5[task_id] = {
                 "compliant": True,
                 "notes": ""
             }
 
-# Selection of the active Phase / View
+# Dropdown selector for the S26 Ultra Touch UI
 phase_selector = st.selectbox(
-    "Select Appraisal Phase to View/Edit:",
-    ["Phase I: Assessment & Baseline (Days 1–30)", 
-     "Phase II: Operational Analysis & Gap Assessment (Days 31–60)", 
-     "Phase III: Synthesis & Strategic Recommendations (Days 61–90)",
-     "Progress & Findings Report (Executive Tab)"]
+    "SELECT VIEWPORT MODE:",
+    ["Phase I: Baseline Discovery (Days 1–30)", 
+     "Phase II: Operational Analysis (Days 31–60)", 
+     "Phase III: Synthesis & Recommendations (Days 61–90)",
+     "Progress & Findings Report (Executive Tab)"],
+    index=0
 )
 
 # ----------------- PHASE I VIEW -----------------
-if phase_selector == "Phase I: Assessment & Baseline (Days 1–30)":
-    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
-    st.markdown("### **Phase I: Assessment & Baseline (Days 1–30)**")
-    st.write("Perform real-time compliance audits. Mark tasks as 'Compliant' or 'Non-Compliant' per the 90-Day Appraisal Plan to view remediation protocols.")
-
-    phase_tasks = audit_definitions["Phase I: Assessment & Baseline (Days 1–30)"]["tasks"]
+if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    st.markdown(f"### **{audit_db['Phase I']['title']}**")
     
+    # Phase overarching info popover (Bubble window)
+    with st.popover("🔬 CLICK FOR PHASE I DIAGNOSTIC BLUEPRINT"):
+        st.markdown(f'<div class="bubble-header">PHASE I OVERVIEW & OBJECTIVE</div>', unsafe_allow_html=True)
+        st.write(audit_db["Phase I"]["diagnostic_rationale"])
+    
+    st.write("Perform real-time compliance audits. Tap policy badges or [INFO] buttons to reveal detailed scientific rationales.")
+
+    phase_tasks = audit_db["Phase I"]["tasks"]
     for task_id, task_info in phase_tasks.items():
         st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
-        st.markdown(f'<div class="policy-badge">{task_info["policy"]}</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="target-badge">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        
+        # Policy badge as a trigger for a popover (Bubble window for policy)
+        col_badge, col_pop_task = st.columns([3, 1])
+        with col_badge:
+            st.markdown(f'<div class="policy-label">{task_info["policy_short"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="target-label">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        with col_pop_task:
+            with st.popover("[INFO]"):
+                st.markdown(f'<div class="bubble-header">SYSTEMIC ANALYSIS DETAILS</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="bubble-policy"><strong>Policy Source:</strong> {task_info["policy_long"]}</div>', unsafe_allow_html=True)
+                st.write(f"**Operational Task:** {task_info['desc_long']}")
+                st.markdown(f'<div style="color:#00FF66; margin-top:8px;"><strong>Appraisal Rationale:</strong> {task_info["rationale"]}</div>', unsafe_allow_html=True)
+
         st.markdown(f"**{task_info['label']}**")
         
         # Pull current state
-        curr_state = st.session_state.appraisal_audit[task_id]["compliant"]
+        curr_state = st.session_state.appraisal_audit_v5[task_id]["compliant"]
         
-        col_lbl, col_sel = st.columns([2, 2])
+        col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
-            st.write("Current Status:")
+            st.write("Diagnostic Status:")
         with col_sel:
             status_val = st.radio(
-                "Status selector",
+                "Select status",
                 ["Compliant", "Non-Compliant"],
                 index=0 if curr_state else 1,
                 key=f"status_{task_id}",
@@ -321,73 +409,89 @@ if phase_selector == "Phase I: Assessment & Baseline (Days 1–30)":
             )
         
         # Save to session state
-        st.session_state.appraisal_audit[task_id]["compliant"] = (status_val == "Compliant")
+        st.session_state.appraisal_audit_v5[task_id]["compliant"] = (status_val == "Compliant")
         
         # Render remediation instructions if marked Non-Compliant
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remediation-box">'
-                f'🚨 <strong>Remediation Directive:</strong> {task_info["remediation"]}<br><br>'
-                f'⚠️ <strong>Systemic Vulnerability:</strong> {task_info["risk_vulnerability"]}<br>'
-                f'💥 <strong>Operational Impact:</strong> {task_info["risk_impact"]}'
+                f'<div class="remedy-banner">'
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
                 f'</div>',
                 unsafe_allow_html=True
             )
             
         st.markdown('</div>', unsafe_allow_html=True)
         
-    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
-    st.markdown("#### **🧠 CliftonStrengths Integration: Phase I Leadership**")
-    st.write("Dr. Scott Niewinski should leverage his dominant talents to drive Phase I baseline auditing:")
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    st.markdown("#### **🧠 CLIFTONSTRENGTHS: PHASE I LEADERSHIP**")
+    st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to drive Phase I implementation:")
     
     with st.expander("🎓 Learner® — Meticulous Chart & LARA Auditing"):
-        st.write("Apply the Learner drive to meticulously study licensing regulations and CPT guidelines. Treat the **30-case stratified chart audit** and LARA log review as active, intellectually engaging learning journeys from baseline discovery to full clinical mastery.")
-    with st.expander("🎯 Strategic® — Workflow Bottleneck Mapping"):
-        st.write("Use the Strategic talent to automatically sort through the clutter of referral workflows. Spot underlying patterns of delay as testing requests move through EHR authorization queues toward PIHP portals.")
-    with st.expander("🤝 Individualization® — Tailored LLP Mentoring"):
-        st.write("Acknowledge the unique clinical and writing styles of Limited License Psychologists (LLPs). Turn chart audit deficiencies into positive, customized growth plans during supervision sessions rather than issuing standardized reprimands.")
-    with st.expander("💡 Ideation® — Designing Triage shadow frameworks"):
-        st.write("Brainstorm out-of-the-box, highly engaging shadowing techniques and intake filters that capture baseline qualitative experiences without disrupting ongoing client care.")
-    with st.expander("🔍 Intellection® — Deep Root-Cause Compliance Analysis"):
-        st.write("Engage in focused, introspective analysis of why supervision logs or documentation loops failed in the past, aiming for sustainable, systemic solutions.")
+        st.write("**Operational Example:** Apply the Learner drive to meticulously study LARA licensing rules (MCL 333.18223) and CPT guidelines. Treat the manual chart audit of 30 testing cases and LARA evaluation log reviews (Rev 6/25) as active, intellectually engaging learning journeys.")
+        st.write("**Unique Opportunity:** Prevents incoming 'action bias' by treating the first 30 days as a period of pure, data-backed learning. This transforms regulatory compliance from a dry, punitive chore into an authoritative clinical study of the organization's current baseline.")
+    with st.expander("🎯 Strategic® — Workflow Triage Mapping"):
+        st.write("**Operational Example:** Automatically sort through the clutter of referral pipelines and trace psychological testing referral life-cycles from inception to intake.")
+        st.write("**Unique Opportunity:** Instantly spots where administrative handoffs and regional Prepaid Inpatient Health Plan (PIHP) portals (such as DWIHN's MHWIN or the State's CHAMPS database) are dropping the ball, allowing Scott to design highly streamlined triage paths.")
+    with st.expander("🤝 Individualization® — Tailored Stakeholder Assessments"):
+        st.write("**Operational Example:** Analyze clinical stakeholder survey responses (prescribers, therapists, outpatient partners) regarding the actual clinical utility and readability of completed psych reports.")
+        st.write("**Unique Opportunity:** Custom-tailors baseline feedback based on the specific clinical writing styles and developmental stages of individual Limited License Psychologists (LLPs), turning a rigid chart audit into an empowering clinical growth plan.")
+    with st.expander("💡 Ideation® — Creative Shadowing Methodologies"):
+        st.write("**Operational Example:** Design non-traditional, engaging shadowing techniques to evaluate intake and scheduling personnel workflows without disrupting active consumer care.")
+        st.write("**Unique Opportunity:** Conceives qualitative assessment methods and out-of-the-box intake filters that capture staff behaviors and patient entry trends from strangely enlightening angles.")
+    with st.expander("🔍 Intellection® — Root-Cause Analysis of Compliance Gaps"):
+        st.write("**Operational Example:** Deeply analyze the systemic and historical reasons behind why documentation loops or supervision hours fell out of compliance.")
+        st.write("**Unique Opportunity:** Leads to the conceptualization of permanent, highly structured administrative solutions (like centralized, automated HR tracking systems) rather than temporary paper workarounds.")
 
 # ----------------- PHASE II VIEW -----------------
-elif phase_selector == "Phase II: Operational Analysis & Gap Assessment (Days 31–60)":
-    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
-    st.markdown("### **Phase II: Operational Analysis & Gap Assessment (Days 31–60)**")
+elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    st.markdown(f"### **{audit_db['Phase II']['title']}**")
     
+    with st.popover("🔬 CLICK FOR PHASE II DIAGNOSTIC BLUEPRINT"):
+        st.markdown(f'<div class="bubble-header">PHASE II OVERVIEW & OBJECTIVE</div>', unsafe_allow_html=True)
+        st.write(audit_db["Phase II"]["diagnostic_rationale"])
+        
     # CARRYOVER LOGIC: Phase I to Phase II
-    # Check if there are any non-compliant items in Phase I
-    phase1_tasks = audit_definitions["Phase I: Assessment & Baseline (Days 1–30)"]["tasks"]
-    p1_non_compliant_keys = [tid for tid in phase1_tasks.keys() if not st.session_state.appraisal_audit[tid]["compliant"]]
+    phase1_tasks = audit_db["Phase I"]["tasks"]
+    p1_non_compliant_keys = [tid for tid in phase1_tasks.keys() if not st.session_state.appraisal_audit_v5[tid]["compliant"]]
     
     if p1_non_compliant_keys:
-        st.markdown('<div class="carryover-alert-box">', unsafe_allow_html=True)
-        st.markdown("🚨 **Critical Carryover Alert: Unresolved Phase I Vulnerabilities Detected!**")
+        st.markdown('<div class="cascade-alert">', unsafe_allow_html=True)
+        st.markdown("🚨 <strong>CRITICAL CARRYOVER ALERT: UNRESOLVED PHASE I RISKS DETECTED!</strong>", unsafe_allow_html=True)
         st.write("The following baseline components remain out of compliance, directly threatening the validity of Phase II operational and financial analyses:")
         for tid in p1_non_compliant_keys:
             st.markdown(f"• **{phase1_tasks[tid]['label']}** — *Unresolved risk of licensure disciplinary action or Medicaid recoupment.*")
         st.markdown("</div>", unsafe_allow_html=True)
     else:
-        st.markdown('<div style="background-color: #E8F5E9; padding: 12px; border-radius: 12px; border-left: 5px solid #2E7D32; margin-bottom: 16px; font-size: 12px; color: #2E7D32;">✓ <strong>All Phase I baselines are verified and compliant.</strong> Transitioning cleanly into Phase II operational audits.</div>', unsafe_allow_html=True)
+        st.markdown('<div style="background-color: rgba(0, 255, 102, 0.08); padding: 12px; border-radius: 12px; border-left: 5px solid #00FF66; border: 1px solid rgba(0, 255, 102, 0.2); margin-bottom: 16px; font-size: 12px; color: #00FF66;">✓ <strong>All Phase I baselines are verified and compliant.</strong> Transitioning cleanly into Phase II operational audits.</div>', unsafe_allow_html=True)
 
-    phase_tasks = audit_definitions["Phase II: Operational Analysis & Gap Assessment (Days 31–60)"]["tasks"]
-    
+    phase_tasks = audit_db["Phase II"]["tasks"]
     for task_id, task_info in phase_tasks.items():
         st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
-        st.markdown(f'<div class="policy-badge">{task_info["policy"]}</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="target-badge">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        
+        # Policy badge and popover
+        col_badge, col_pop_task = st.columns([3, 1])
+        with col_badge:
+            st.markdown(f'<div class="policy-label">{task_info["policy_short"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="target-label">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        with col_pop_task:
+            with st.popover("[INFO]"):
+                st.markdown(f'<div class="bubble-header">SYSTEMIC ANALYSIS DETAILS</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="bubble-policy"><strong>Policy Source:</strong> {task_info["policy_long"]}</div>', unsafe_allow_html=True)
+                st.write(f"**Operational Task:** {task_info['desc_long']}")
+                st.markdown(f'<div style="color:#00FF66; margin-top:8px;"><strong>Appraisal Rationale:</strong> {task_info["rationale"]}</div>', unsafe_allow_html=True)
+
         st.markdown(f"**{task_info['label']}**")
         
         # Pull current state
-        curr_state = st.session_state.appraisal_audit[task_id]["compliant"]
+        curr_state = st.session_state.appraisal_audit_v5[task_id]["compliant"]
         
-        col_lbl, col_sel = st.columns([2, 2])
+        col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
-            st.write("Current Status:")
+            st.write("Diagnostic Status:")
         with col_sel:
             status_val = st.radio(
-                "Status selector",
+                "Select status",
                 ["Compliant", "Non-Compliant"],
                 index=0 if curr_state else 1,
                 key=f"status_{task_id}",
@@ -396,57 +500,89 @@ elif phase_selector == "Phase II: Operational Analysis & Gap Assessment (Days 31
             )
         
         # Save to session state
-        st.session_state.appraisal_audit[task_id]["compliant"] = (status_val == "Compliant")
+        st.session_state.appraisal_audit_v5[task_id]["compliant"] = (status_val == "Compliant")
         
         # Render remediation instructions if marked Non-Compliant
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remediation-box">'
-                f'🚨 <strong>Remediation Directive:</strong> {task_info["remediation"]}<br><br>'
-                f'⚠️ <strong>Systemic Vulnerability:</strong> {task_info["risk_vulnerability"]}<br>'
-                f'💥 <strong>Operational Impact:</strong> {task_info["risk_impact"]}'
+                f'<div class="remedy-banner">'
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
                 f'</div>',
                 unsafe_allow_html=True
             )
             
         st.markdown('</div>', unsafe_allow_html=True)
 
-# ----------------- PHASE III VIEW -----------------
-elif phase_selector == "Phase III: Synthesis & Strategic Recommendations (Days 61–90)":
-    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
-    st.markdown("### **Phase III: Synthesis & Strategic Recommendations (Days 61–90)**")
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    st.markdown("#### **🧠 CLIFTONSTRENGTHS: PHASE II LEADERSHIP**")
+    st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to drive Phase II operational and financial audits:")
     
+    with st.expander("🎓 Learner® — Prior Authorization & Turnaround Time Analytics"):
+        st.write("**Operational Example:** Deeply study and master the differing prior authorization thresholds across diverse Prepaid Inpatient Health Plans (PIHPs) and Medicaid Health Plans (MCOs) in Wayne, Oakland, and Macomb counties (e.g., Meridian's 8-hour annual calendar limit vs. DWIHN's immediate bundled PA specialty codes).")
+        st.write("**Unique Opportunity:** Seamlessly digests and unifies fragmented, dry regional guidelines into a single, comprehensive knowledge matrix. Scott can then translate this into concrete EHR scheduling hard stops that protect the clinic from conducting uncompensated diagnostic testing.")
+    with st.expander("🎯 Strategic® — Pattern Mapping of CPT Denials & NCCI Edits"):
+        st.write("**Operational Example:** Analyze a 12-month historical claims database of CPT codes 96130–96139 to identify clearinghouse edit rejections. Specifically target same-day dual billing conflicts between providers and technicians (CPT 96136 and 96138).")
+        st.write("**Unique Opportunity:** Instantly spots systemic billing denial patterns (such as CO-97 bundled services). This enables Scott to hardcode EHR billing validation rules and establish clear Modifier XE/59 guidelines that automatically resolve claims and maximize reimbursement realization rates.")
+    with st.expander("🤝 Individualization® — Segmented Turnaround Time (TAT) Coaching"):
+        st.write("**Operational Example:** Analyze individual clinician TAT metrics by dividing EHR timestamp data into three segments: referral-to-auth, auth-to-testing, and testing-to-signed-report.")
+        st.write("**Unique Opportunity:** Allows Scott to deliver personalized, supportive performance counseling. Instead of sending generic, punitive emails about late reports, he analyzes why a specific clinician is bottlenecked (e.g., scoring vs. writing) and provides custom-tailored interventions.")
+    with st.expander("💡 Ideation® — Digital Scoring Transitions"):
+        st.write("**Operational Example:** Brainstorm digital scoring alternatives (like Pearson Q-interactive, PARiConnect, WPS) to transition the clinical team away from traditional, manual paper scoring protocols.")
+        st.write("**Unique Opportunity:** Visualizes creative, non-linear digital workflows—such as configuring EHR telehealth modules to automatically append virtual Modifier 95/GT and POS codes (02/10) when virtual video feedback links are generated, streamlining remote reimbursement.")
+    with st.expander("🔍 Intellection® — Cost-Benefit Cost Allocation Analyses"):
+        st.write("**Operational Example:** Perform a detailed overhead cost-benefit analysis of physical testing kits and digital scoring licenses.")
+        st.write("**Unique Opportunity:** Drives rigorous financial introspection, calculating cost-per-assessment overhead ratios to prove the long-term ROI of migrating the department to complete digital psychometric platforms under a flat CCBHC prospective payment rate.")
+
+# ----------------- PHASE III VIEW -----------------
+elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    st.markdown(f"### **{audit_db['Phase III']['title']}**")
+    
+    with st.popover("🔬 CLICK FOR PHASE III DIAGNOSTIC BLUEPRINT"):
+        st.markdown(f'<div class="bubble-header">PHASE III OVERVIEW & OBJECTIVE</div>', unsafe_allow_html=True)
+        st.write(audit_db["Phase III"]["diagnostic_rationale"])
+        
     # CARRYOVER LOGIC: Phase II to Phase III
-    phase2_tasks = audit_definitions["Phase II: Operational Analysis & Gap Assessment (Days 31–60)"]["tasks"]
-    p2_non_compliant_keys = [tid for tid in phase2_tasks.keys() if not st.session_state.appraisal_audit[tid]["compliant"]]
+    phase2_tasks = audit_db["Phase II"]["tasks"]
+    p2_non_compliant_keys = [tid for tid in phase2_tasks.keys() if not st.session_state.appraisal_audit_v5[tid]["compliant"]]
     
     if p2_non_compliant_keys:
-        st.markdown('<div class="carryover-alert-box">', unsafe_allow_html=True)
-        st.markdown("🚨 **Critical Carryover Alert: Unresolved Phase II Gaps Detected!**")
-        st.write("The following operational and financial gaps remain unresolved. Proposing Phase III strategic recommendations is compromised due to un-quantified or unaligned baselines:")
+        st.markdown('<div class="cascade-alert">', unsafe_allow_html=True)
+        st.markdown("🚨 <strong>CRITICAL CARRYOVER ALERT: UNRESOLVED PHASE II GAPS DETECTED!</strong>", unsafe_allow_html=True)
+        st.write("The following operational and financial gaps remain unresolved. Proposing Phase III strategic recommendations is compromised due to unaligned baselines:")
         for tid in p2_non_compliant_keys:
             st.markdown(f"• **{phase2_tasks[tid]['label']}** — *Unresolved risk of billing denials or uncompensated clinical work.*")
         st.markdown("</div>", unsafe_allow_html=True)
     else:
-        st.markdown('<div style="background-color: #E8F5E9; padding: 12px; border-radius: 12px; border-left: 5px solid #2E7D32; margin-bottom: 16px; font-size: 12px; color: #2E7D32;">✓ <strong>All Phase II analytical audits are verified and compliant.</strong> Ready to synthesize strategic recommendations.</div>', unsafe_allow_html=True)
+        st.markdown('<div style="background-color: rgba(0, 255, 102, 0.08); padding: 12px; border-radius: 12px; border-left: 5px solid #00FF66; border: 1px solid rgba(0, 255, 102, 0.2); margin-bottom: 16px; font-size: 12px; color: #00FF66;">✓ <strong>All Phase II analytical audits are verified and compliant.</strong> Ready to synthesize strategic recommendations.</div>', unsafe_allow_html=True)
 
-    phase_tasks = audit_definitions["Phase III: Synthesis & Strategic Recommendations (Days 61–90)"]["tasks"]
-    
+    phase_tasks = audit_db["Phase III"]["tasks"]
     for task_id, task_info in phase_tasks.items():
         st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
-        st.markdown(f'<div class="policy-badge">{task_info["policy"]}</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="target-badge">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        
+        # Policy badge and popover
+        col_badge, col_pop_task = st.columns([3, 1])
+        with col_badge:
+            st.markdown(f'<div class="policy-label">{task_info["policy_short"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="target-label">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        with col_pop_task:
+            with st.popover("[INFO]"):
+                st.markdown(f'<div class="bubble-header">SYSTEMIC ANALYSIS DETAILS</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="bubble-policy"><strong>Policy Source:</strong> {task_info["policy_long"]}</div>', unsafe_allow_html=True)
+                st.write(f"**Operational Task:** {task_info['desc_long']}")
+                st.markdown(f'<div style="color:#00FF66; margin-top:8px;"><strong>Appraisal Rationale:</strong> {task_info["rationale"]}</div>', unsafe_allow_html=True)
+
         st.markdown(f"**{task_info['label']}**")
         
         # Pull current state
-        curr_state = st.session_state.appraisal_audit[task_id]["compliant"]
+        curr_state = st.session_state.appraisal_audit_v5[task_id]["compliant"]
         
-        col_lbl, col_sel = st.columns([2, 2])
+        col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
-            st.write("Current Status:")
+            st.write("Diagnostic Status:")
         with col_sel:
             status_val = st.radio(
-                "Status selector",
+                "Select status",
                 ["Compliant", "Non-Compliant"],
                 index=0 if curr_state else 1,
                 key=f"status_{task_id}",
@@ -455,86 +591,103 @@ elif phase_selector == "Phase III: Synthesis & Strategic Recommendations (Days 6
             )
         
         # Save to session state
-        st.session_state.appraisal_audit[task_id]["compliant"] = (status_val == "Compliant")
+        st.session_state.appraisal_audit_v5[task_id]["compliant"] = (status_val == "Compliant")
         
         # Render remediation instructions if marked Non-Compliant
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remediation-box">'
-                f'🚨 <strong>Remediation Directive:</strong> {task_info["remediation"]}<br><br>'
-                f'⚠️ <strong>Systemic Vulnerability:</strong> {task_info["risk_vulnerability"]}<br>'
-                f'💥 <strong>Operational Impact:</strong> {task_info["risk_impact"]}'
+                f'<div class="remedy-banner">'
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
                 f'</div>',
                 unsafe_allow_html=True
             )
             
         st.markdown('</div>', unsafe_allow_html=True)
 
-# ----------------- EXECUTIVE REPORT VIEW -----------------
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    st.markdown("#### **🧠 CLIFTONSTRENGTHS: PHASE III LEADERSHIP**")
+    st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to synthesize findings and build the 12-month roadmap:")
+    
+    with st.expander("🎓 Learner® — Continuous Quality Improvement (CQI) Integration"):
+        st.write("**Operational Example:** Deeply research and incorporate the latest evidence-based clinical screening standards and State-designated level-of-care frameworks (LOCUS/MichiCANS) into the final executive report and ongoing staff curriculum.")
+        st.write("**Unique Opportunity:** Fuses state guidelines with clinical excellence. This ensures the final 'State of Psychological Testing' appraisal report functions as a highly sophisticated, scientifically-defensible masterwork that justifies the department's costs during cost-based rate rebasing.")
+    with st.expander("🎯 Strategic® — Roadmap Prioritization & Executive Consensus"):
+        st.write("**Operational Example:** Filter through all audited operational, financial, and clinical gaps to present the executive board with the top three high-impact optimization priorities in the 12-month roadmap.")
+        st.write("**Unique Opportunity:** Cuts through complex diagnostic metrics to present a razor-sharp business case to non-clinical executives, successfully securing capital budgets for digital platform interoperability and LARA log centralization.")
+    with st.expander("🤝 Individualization® — Strengths-Aligned Team Transition"):
+        st.write("**Operational Example:** Plan the transition of the testing department toward the newly formulated clinical and billing protocols, delegating specific roles to staff LLPs and LPs.")
+        st.write("**Unique Opportunity:** Matches transition roles to the specific strengths and clinical preferences of individual team members. This maximizes clinician buy-in, lowers friction during the digital transition, and prevents staff burnout.")
+    with st.expander("💡 Ideation® — Stepped-Care Clinical Algorithm"):
+        st.write("**Operational Example:** Design the clinical triage algorithm for the Stepped-Care Assessment Model to resolve low-acuity cases using brief screenings (CPT 96127) at intake.")
+        st.write("**Unique Opportunity:** Conceives a highly original, creative clinical pathway that filters low-acuity diagnostic questions early. This preserves psychologist FTE capacity and reserves intensive psychometric testing exclusively for severe SMI/SED differential diagnoses, systematically eliminating waitlist bottlenecks.")
+    with st.expander("🔍 Intellection® — High-Fidelity KPI Dashboard Design"):
+        st.write("**Operational Example:** Select and wireframe the exact clinical and financial metrics to track on the live, EHR-integrated Business Intelligence dashboard.")
+        st.write("**Unique Opportunity:** Introspectively conceptualizes the most high-fidelity, high-impact clinical-financial metrics (volume, report TAT, denials, waitlists, and cost-per-assessment) to provide leadership with real-time, long-term operational oversight.")
+
+# ----------------- PROGRESS & FINDINGS REPORT VIEW -----------------
 elif phase_selector == "Progress & Findings Report (Executive Tab)":
-    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
-    st.markdown("<div style='text-align: center; border: 2px solid #4A154B; padding: 15px; border-radius: 12px; background-color: #F3E5F5; margin-bottom: 20px;'>", unsafe_allow_html=True)
-    st.markdown("<h3 style='color: #4A154B; margin: 0; font-weight: 800; font-size:18px;'>90-DAY PSYCHOLOGICAL SERVICES APPRAISAL</h3>", unsafe_allow_html=True)
-    st.markdown("<h4 style='color: #2E7D32; margin: 5px 0 0 0; font-weight: 700; font-size:14px;'>EXECUTIVE PROGRESS & FINDINGS REPORT</h4>", unsafe_allow_html=True)
-    st.markdown(f"<p style='color: #7A8B7B; font-size: 11px; margin: 5px 0 0 0;'>Prepared for: CNS Healthcare Clinical & Executive Leadership<br>Auditor: Dr. Scott Niewinski, Psy.D., Manager of Psychological Services</p>", unsafe_allow_html=True)
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
+    
+    # Styled Executive Header Block (Purple & Green design)
+    st.markdown("<div style='text-align: center; border: 2px solid rgba(0, 255, 102, 0.4); padding: 16px; border-radius: 16px; background-color: rgba(30, 8, 48, 0.95); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);'>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #FFFFFF; margin: 0; font-weight: 900; font-size:16px; font-family: monospace; letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);'>CNS HEALTHCARE PSYCHOLOGICAL SERVICES</h3>", unsafe_allow_html=True)
+    st.markdown("<h4 style='color: #00FF66; margin: 4px 0 0 0; font-weight: 700; font-size:12px; font-family: monospace; letter-spacing: 1px;'>EXECUTIVE PROGRESS & FINDINGS REPORT</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color: #E1BEE7; font-size: 10px; margin: 6px 0 0 0; font-family: monospace; line-height: 1.3;'>Prepared for: Provider Supervisors & Executive Leadership<br>Auditor: Dr. Scott Niewinski, Psy.D., Manager of Psychological Services</p>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
     
-    # Calculate global metrics
+    # Calculate live global metrics across all phases
     all_tasks = []
     compliant_count = 0
     non_compliant_list = []
     compliant_list = []
     
-    for phase_name, phase_info in audit_definitions.items():
+    for phase_name, phase_info in audit_db.items():
         for task_id, task_info in phase_info["tasks"].items():
-            is_comp = st.session_state.appraisal_audit[task_id]["compliant"]
-            all_tasks.append((task_id, task_info, phase_name, is_comp))
+            is_comp = st.session_state.appraisal_audit_v5[task_id]["compliant"]
+            all_tasks.append((task_id, task_info, phase_info["title"], is_comp))
             if is_comp:
                 compliant_count += 1
-                compliant_list.append((task_info, phase_name))
+                compliant_list.append((task_info, phase_info["title"]))
             else:
-                non_compliant_list.append((task_info, phase_name))
+                non_compliant_list.append((task_info, phase_info["title"]))
                 
     total_count = len(all_tasks)
     comp_pct = (compliant_count / total_count) * 100
     
-    # Executive Scorecards
+    # Executive Digital Scorecards
     col_pct, col_non = st.columns(2)
     with col_pct:
-        st.metric("Total Compliance Score", f"{comp_pct:.1f}%", f"{compliant_count}/{total_count} Verified")
+        st.metric("COMPLIANCE RATE", f"{comp_pct:.1f}%", f"{compliant_count}/{total_count} Passed")
     with col_non:
-        st.metric("Identified Compliance Gaps", f"{len(non_compliant_list)}", delta="- Active Gaps", delta_color="inverse")
+        st.metric("ACTIVE GAPS", f"{len(non_compliant_list)}", delta="- Risk Mitigations Needed", delta_color="inverse")
         
     st.progress(compliant_count / total_count)
-    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
     
-    # Detailed section breakups
-    st.markdown("### **🔍 Detailed Appraisal Findings**")
+    st.markdown("### **📋 APPRAISAL STATUS SUMMARY**")
     
     # Compliant Items Summary
     if compliant_list:
-        with st.expander("🟢 Verified Strengths & Compliant Areas", expanded=True):
+        with st.expander("🟢 VERIFIED STRENGTHS & COMPLIANT AREAS", expanded=True):
             for t_info, p_name in compliant_list:
-                st.markdown(f"✓ **{t_info['label']}** ({p_name})")
-                st.markdown(f"<span style='font-size:11px; color:#2E7D32;'>Policy: {t_info['policy']}</span>", unsafe_allow_html=True)
-                st.markdown("<hr style='margin: 6px 0;'>", unsafe_allow_html=True)
+                st.markdown(f"**✓ {t_info['label']}**")
+                st.markdown(f"<span style='font-size:10px; color:#00FF66; font-family: monospace;'>Phase: {p_name} | Policy: {t_info['policy_short']}</span>", unsafe_allow_html=True)
+                st.markdown("<hr style='margin: 8px 0; border: none; border-bottom: 1px solid rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
     
     # Non-Compliant Gaps Summary with dynamic Remediation Directives
     if non_compliant_list:
-        st.markdown("### **🔴 Critical Vulnerabilities & Active Risk Matrix**")
-        st.write("The following items are out of compliance and present active regulatory, financial, or operational liabilities:")
+        st.markdown("### **🔴 CRITICAL VULNERABILITIES & MITIGATION MATRIX**")
+        st.write("These items represent active regulatory, licensing, or billing liabilities demanding immediate executive correction:")
         
         for t_info, p_name in non_compliant_list:
-            st.markdown(f"<div style='border: 1.5px solid #FFCDD2; border-radius: 12px; padding: 14px; margin-bottom: 12px; background-color: #FFF5F5;'>", unsafe_allow_html=True)
-            st.markdown(f"<strong style='color:#C62828;'>[GAP] {t_info['label']}</strong><br><span style='font-size:11px; color:#78909C;'>Phase: {p_name}</span>", unsafe_allow_html=True)
-            st.markdown(f"<p style='margin: 8px 0 4px 0; font-size:12px;'><strong>Regulatory Policy:</strong> {t_info['policy']}</p>", unsafe_allow_html=True)
-            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px;'><strong>Target Metric:</strong> {t_info['target']}</p>", unsafe_allow_html=True)
-            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #D32F2F;'><strong>Active Risk Category:</strong> {t_info['risk_category']}</p>", unsafe_allow_html=True)
-            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #5D4037;'><strong>Vulnerability:</strong> {t_info['risk_vulnerability']}</p>", unsafe_allow_html=True)
-            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #C62828;'><strong>Operational Impact:</strong> {t_info['risk_impact']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<div style='border: 1px solid rgba(211, 47, 47, 0.4); border-radius: 12px; padding: 14px; margin-bottom: 12px; background-color: rgba(211, 47, 47, 0.08);'>", unsafe_allow_html=True)
+            st.markdown(f"<strong style='color:#FF8A80; font-family: monospace;'>[GAP] {t_info['label']}</strong><br><span style='font-size:10px; color:#E1BEE7;'>Phase: {p_name}</span>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 8px 0 4px 0; font-size:12px; color: #ECEFF1;'><strong>Regulatory Policy:</strong> {t_info['policy_long']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #00FF66; font-family: monospace;'><strong>Target KPI Metric:</strong> {t_info['target']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #FFCDD2;'><strong>Active Vulnerability:</strong> {t_info['rationale']}</p>", unsafe_allow_html=True)
             
             st.markdown(
-                f'<div style="background-color: #FFF9C4; padding: 10px; border-radius: 8px; border-left: 4px solid #FBC02D; margin-top: 8px; font-size: 12px; color: #5D4037;">'
+                f'<div class="remedy-banner">'
                 f'🛠️ <strong>REMEDIATION DIRECTIVE:</strong> {t_info["remediation"]}'
                 f'</div>',
                 unsafe_allow_html=True
@@ -543,11 +696,11 @@ elif phase_selector == "Progress & Findings Report (Executive Tab)":
     else:
         st.success("🎉 Spectacular! All 90-Day appraisal deliverables are verified as 100% compliant with LARA, MDHHS, and CARF guidelines. No active risks detected.")
 
-# Sticky Footer
-st.markdown("<hr style='margin-top: 30px;'>", unsafe_allow_html=True)
+# Sticky Scientific Footer
+st.markdown("<hr style='margin-top: 30px; border-color: rgba(0, 255, 102, 0.2);'>", unsafe_allow_html=True)
 st.markdown(
-    '<div style="font-size:10px; color:#90A4AE; text-align:center; padding-bottom:15px;">'
-    'CNS Healthcare Appraisal Dashboard • Strictly Grounded in "90-Day Psychological Services Appraisal Plan.docx"'
+    '<div style="font-size:9px; color:#808080; text-align:center; padding-bottom:15px; font-family: monospace;">'
+    'CNS Healthcare Appraisal Systems • Grounded strictly in "90-Day Psychological Services Appraisal Plan.docx"'
     '</div>',
     unsafe_allow_html=True
 )
