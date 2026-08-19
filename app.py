@@ -1,752 +1,553 @@
 import streamlit as st
 
-# Set Streamlit Page Configuration - optimized for modern mobile viewports (e.g., Samsung Galaxy S26 Ultra)
+# Set Streamlit Page Configuration - optimized for Samsung Galaxy S26 Ultra (high-res vertical viewport)
 st.set_page_config(
-    page_title="90-Day Clinical & Operational Audit App",
-    page_icon="📱",
+    page_title="90-Day Psychological Services Appraisal App",
+    page_icon="💜",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS to inject a premium "Samsung OneUI" visual aesthetic (curved corners, rich blues, readable mobile cards)
+# Premium Purple, Green, and White CSS styling (Samsung OneUI aesthetic)
 st.markdown("""
 <style>
-    /* Main body background & mobile canvas layout */
+    /* Main body styling */
     .stApp {
-        background-color: #F8F9FD;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #F9F8FC;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     
-    /* Device frame mockup for Samsung S26 Ultra centered canvas */
+    /* Device frame mockup for Samsung S26 Ultra */
     @media (min-width: 450px) {
         .block-container {
             max-width: 440px !important;
-            padding: 20px !important;
+            padding: 24px !important;
             background: #FFFFFF;
-            border-radius: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            margin-top: 10px;
-            margin-bottom: 20px;
-            border: 8px solid #1E2022;
+            border-radius: 36px;
+            box-shadow: 0 24px 80px rgba(74, 21, 75, 0.08);
+            margin-top: 15px;
+            margin-bottom: 25px;
+            border: 8px solid #3A103B; /* Premium Dark Purple Frame */
         }
     }
     
-    /* Sleek card styling for checklist containers */
-    .audit-card {
+    /* Sleek card styling */
+    .app-card {
         background: #FFFFFF;
-        border-radius: 20px;
+        border-radius: 18px;
         padding: 16px;
         margin-bottom: 16px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-        border: 1px solid #ECEFF1;
+        box-shadow: 0 4px 20px rgba(74, 21, 75, 0.02);
+        border: 1px solid #ECE6F0; /* Purple-tinted border */
     }
     
-    /* Premium header styles */
+    /* Premium Header elements */
     .app-title {
-        font-size: 24px !important;
+        font-size: 26px !important;
         font-weight: 800 !important;
-        color: #1A237E;
+        color: #4A154B; /* Deep Purple */
         text-align: center;
-        margin-bottom: 4px;
-        letter-spacing: -0.5px;
+        margin-bottom: 2px;
+        letter-spacing: -0.6px;
     }
     
     .app-subtitle {
         font-size: 13px;
-        color: #78909C;
+        color: #7A8B7B; /* Muted Green-Gray */
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+        font-weight: 500;
     }
     
-    .phase-badge {
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        background: linear-gradient(135deg, #1E3A8A, #3B82F6);
-        padding: 6px 12px;
-        border-radius: 20px;
-        display: inline-block;
+    /* Headers inside the cards */
+    .section-header {
+        font-size: 16px;
+        font-weight: 700;
+        color: #4A154B;
+        border-bottom: 2px solid #E8F5E9; /* Green Accent border */
+        padding-bottom: 6px;
         margin-bottom: 12px;
-        text-align: center;
     }
     
-    .policy-tag {
+    /* Color-coded tags */
+    .policy-badge {
         font-size: 11px;
         font-weight: 700;
-        background-color: #E8EAF6;
-        color: #283593;
-        padding: 3px 8px;
+        background-color: #F3E5F5; /* Light Purple */
+        color: #4A154B; /* Deep Purple */
+        padding: 4px 10px;
         border-radius: 12px;
         display: inline-block;
-        margin-bottom: 8px;
-    }
-    
-    /* Color-coded indicator labels */
-    .status-compliant {
-        font-size: 12px;
-        font-weight: bold;
-        color: #2E7D32;
-        background-color: #E8F5E9;
-        padding: 4px 10px;
-        border-radius: 8px;
-        display: inline-block;
-    }
-    
-    .status-noncompliant {
-        font-size: 12px;
-        font-weight: bold;
-        color: #C62828;
-        background-color: #FFEBEE;
-        padding: 4px 10px;
-        border-radius: 8px;
-        display: inline-block;
-    }
-    
-    /* Report styling elements */
-    .report-card {
-        background-color: #FFFFFF;
-        border-radius: 15px;
-        border-left: 6px solid #1A237E;
-        padding: 15px;
-        margin-bottom: 15px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-    }
-    
-    .report-header {
-        font-size: 18px;
-        font-weight: 700;
-        color: #0D47A1;
         margin-bottom: 10px;
-        border-bottom: 1px solid #E0E0E0;
-        padding-bottom: 5px;
+    }
+    
+    .target-badge {
+        font-size: 11px;
+        font-weight: 700;
+        background-color: #E8F5E9; /* Light Green */
+        color: #2E7D32; /* Rich Green */
+        padding: 4px 10px;
+        border-radius: 12px;
+        display: inline-block;
+        margin-bottom: 10px;
+        margin-left: 5px;
     }
 
-    /* Custom button styling */
-    .stButton>button {
-        background-color: #1E3A8A !important;
-        color: white !important;
-        border-radius: 12px !important;
-        padding: 10px 20px !important;
-        font-weight: 700 !important;
-        width: 100%;
-        border: none !important;
-        transition: all 0.3s ease;
+    /* Remediation protocols card */
+    .remediation-box {
+        background-color: #FFF9C4; /* Warm yellow/amber highlight */
+        padding: 12px;
+        border-radius: 12px;
+        border-left: 5px solid #FBC02D;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #5D4037;
+    }
+    
+    /* Carryover Alert styling */
+    .carryover-alert-box {
+        background-color: #FFEBEE;
+        padding: 12px;
+        border-radius: 12px;
+        border-left: 5px solid #D32F2F;
+        margin-bottom: 16px;
+        font-size: 12px;
+        color: #C62828;
+    }
+    
+    /* HR style dividers */
+    .purple-divider {
+        height: 2px;
+        background: linear-gradient(to right, #4A154B, #2E7D32, #FFFFFF);
+        border: none;
+        margin: 15px 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Title & Metadata
-st.markdown('<div class="app-title">CNS Psychological Services</div>', unsafe_allow_html=True)
-st.markdown('<div class="app-subtitle">90-Day Operational & Clinical Appraisal • S26 Ultra Optimized</div>', unsafe_allow_html=True)
+# Title & Metadata mockups
+st.markdown('<div class="app-title">CNS HEALTHCARE</div>', unsafe_allow_html=True)
+st.markdown('<div class="app-subtitle">90-Day Psychological Services Appraisal Portal</div>', unsafe_allow_html=True)
 
-# Initialize Session State for all 3 Phases to ensure data carryover
-if 'audit_data' not in st.session_state:
-    st.session_state.audit_data = {
-        # --- PHASE 1: Discovery & Regulatory Baseline (Days 1–30) ---
-        # Objective 1.1: LARA Supervision Compliance
-        "lara_logs_exist": {"compliant": True, "notes": "Form LARA/BPL Rev. 6/25 logs verified for LLPs"},
-        "lara_4hours": {"compliant": True, "notes": "Minimum 4 hours/month face-to-face LP supervision confirmed"},
-        "lara_signoff": {"compliant": True, "notes": "Official supervision evaluation logs signed and uploaded"},
-        "lara_cosignature": {"compliant": True, "notes": "Fully Licensed LP co-signatures on clinical notes verified"},
-        
-        # Objective 1.2: BTPRC Safeguards (MDHHS APF 167)
-        "btp_unanimous": {"compliant": True, "notes": "Unanimous committee approval obtained for restrictive plans"},
-        "btp_composition": {"compliant": True, "notes": "Committee includes Licensed Psychologist/BCBA, MD/DO, and ORR rep"},
-        "btp_medical": {"compliant": True, "notes": "MD/DO physical exam completed to rule out biological causes"},
-        "btp_fba_attached": {"compliant": True, "notes": "FBA completed with baseline A-B-C behavioral data"},
-        "btp_no_aversives": {"compliant": True, "notes": "Zero prohibited aversive or emergency physical codes used"},
-        
-        # Objective 1.3: Clinical Documentation & CPT Coding
-        "cpt_feedback_96130": {"compliant": True, "notes": "Interactive feedback sessions documented for all 96130 claims"},
-        "cpt_time_minimum": {"compliant": True, "notes": "CPT 96130 evaluations support 31+ minute threshold minimums"},
-        "cpt_tech_segregation": {"compliant": True, "notes": "Technician scoring (96138) strictly segregated from provider (96136)"},
-        "cpt_stratified_audit": {"compliant": True, "notes": "30-case stratified chart audit proportionally extracted"},
-        
-        # Objective 1.4: CCBHC Access & Triage Velocity
-        "triage_prelim_screening": {"compliant": True, "notes": "Preliminary screening and risk assessment conducted at first contact"},
-        "triage_michicans_locus": {"compliant": True, "notes": "Required tools (MichiCANS Screener/LOCUS) integrated in triage"},
-        "triage_urgent_1day": {"compliant": True, "notes": "Urgent cases scheduled and initiated within 1 business day"},
-        "triage_routine_14day": {"compliant": True, "notes": "Routine assessments initiated within 14 calendar days"},
-        "triage_waitlist_interim": {"compliant": True, "notes": "Zero waitlists maintained; care coordination interim services active"},
-
-        # --- PHASE 2: Implementation of Clinical Frameworks (Days 31–60) ---
-        # Objective 2.1: Therapeutic Assessment Deployment
-        "ta_collaborative_questions": {"compliant": True, "notes": "Collaborative Assessment Questions established with consumers"},
-        "ta_face_valid_ordering": {"compliant": True, "notes": "Performance and cognitive tests administered before projective measures"},
-        "ta_ais_operationalized": {"compliant": True, "notes": "AIS sessions used to observe and process experiential avoidance in real-time"},
-        "ta_synthesis_letter": {"compliant": True, "notes": "Legacy testing reports replaced with personalized patient-centered letters"},
-
-        # Objective 2.2: EHR Behavior Plan Overhaul
-        "ehp_replacement_behaviors": {"compliant": True, "notes": "Templates mandate positive replacement behaviors and distress tolerance"},
-        "ehp_fade_plans": {"compliant": True, "notes": "Mandatory fade plans embedded for any restrictive/intrusive safety techniques"},
-        "ehp_routing_restraints": {"compliant": True, "notes": "EHR restricts routing of plans with physical restraints, flagging clinical manager"},
-
-        # Objective 2.3: Clinical Workshop Series (Modules 1 & 2)
-        "ws_module_1_mi": {"compliant": True, "notes": "Workshop Module 1 (Motivational Interviewing) delivered cross-department"},
-        "ws_module_2_ea": {"compliant": True, "notes": "Workshop Module 2 (Deconstructing Experiential Avoidance) delivered to staff"},
-        "ws_attendance_rate": {"compliant": True, "notes": "Achieved minimum 90% workshop training completion rate cross-clinics"},
-
-        # Objective 2.4: Revenue Cycle Denial Audit
-        "rcm_historical_audit": {"compliant": True, "notes": "Completed CPT coding and denial audit on previous 12 months of claims"},
-        "rcm_96130_verification": {"compliant": True, "notes": "Verified CPT 96130 evaluations support 31+ minute thresholds"},
-        "rcm_ncci_modifiers": {"compliant": True, "notes": "Applied NCCI Modifiers 59/XE correctly to prevent automated rejections"},
-
-        # --- PHASE 3: Quality Assurance & Future Exploration (Days 61–90) ---
-        # Objective 3.1: Simulated CARF Audit
-        "carf_mock_audit": {"compliant": True, "notes": "Mock CARF chart audits executed across all 7 CNS clinics"},
-        "carf_soap_notes": {"compliant": True, "notes": "Clinical progress notes follow person-centered SOAP formats (24-hr window)"},
-        "carf_smart_goals": {"compliant": True, "notes": "Individualized plans of service (IPOS) incorporate SMART goals in patient's voice"},
-
-        # Objective 3.2: Measurement-Informed Care (MIC)
-        "mic_ehr_embedding": {"compliant": True, "notes": "PHQ-9, GAD-7, DAST-10, and AUDIT-C embedded into EHR clinical workflows"},
-        "mic_clinical_decisions": {"compliant": True, "notes": "Treatment adjustments documented when screening scales show no patient progress"},
-        "mic_locus_michicans": {"compliant": True, "notes": "LOCUS and MichiCANS assessments updated annually and upon clinical changes"},
-
-        # Objective 3.3: Stepped-Care Assessment Protocol
-        "sc_protocol_deployment": {"compliant": True, "notes": "Stepped-Care Assessment pathway deployed to protect diagnostic capacity"},
-        "sc_triage_96127": {"compliant": True, "notes": "Intake clinicians use brief screenings (96127) to filter low-acuity cases"},
-        "sc_testing_limits": {"compliant": True, "notes": "Comprehensive, multi-hour testing blocks strictly reserved for high differential diagnoses"},
-
-        # Objective 3.4: KPI Dashboarding
-        "kpi_dashboard_design": {"compliant": True, "notes": "Ongoing Assessment KPI Dashboard designed and wireframed in EHR"},
-        "kpi_metrics_tracking": {"compliant": True, "notes": "Weekly metrics (volume, TAT, claims denials, waitlists) monitored live"},
-        "kpi_billing_regressions": {"compliant": True, "notes": "Payer-specific claims data integrated to prevent future billing regressions"},
-
-        # Objective 3.5: Ambient Clinical AI ROI Case
-        "ai_scribe_evaluation": {"compliant": True, "notes": "Ambient clinical AI (e.g. Eleos Health) evaluated to reduce documentation overhead"},
-        "ai_time_reduction": {"compliant": True, "notes": "NLP ambient scribing tested, demonstrating 70% decrease in write times"},
-        "ai_roi_proposal": {"compliant": True, "notes": "Watertight ROI business case drafted and presented to the Chief Clinical Officer"}
-    }
-
-# ================= AUDIT DEFINITIONS PER PHASE =================
-
-phase_1_defs = {
-    "LARA Supervision Compliance": {
-        "policy": "LARA Rule 338.2569 & MCL 333.18223 (Michigan Public Health Code)",
+# Define our structured objectives, tasks, targets, and policies strictly from the Word document
+audit_definitions = {
+    "Phase I: Assessment & Baseline (Days 1–30)": {
         "tasks": {
-            "lara_logs_exist": {
-                "label": "Official LARA logs exist for all active LLPs/TLLPs.",
-                "remediation": "Immediately download the official Psychology Supervision Evaluation form (LARA/BPL, Rev. 6/25) for any staff member missing active logs and mandate immediate record recreation."
+            "p1_t1": {
+                "label": "Verify Limited License Psychologist (LLP) Supervision Logs.",
+                "policy": "Michigan Public Health Code MCL 333.18223 & LARA Rule 338.2569: Requires LLPs to document at least 4 hours/month of individual, face-to-face supervision on Form LARA/BPL Rev. 6/25.",
+                "target": "100% compliance with LARA MCL 333.18223 (4 hrs/mo individual)",
+                "remediation": "Immediately halt unsupervised LLP billing to avoid recoupment. Establish automated HR tracking for Psychology Supervision Evaluation forms (Rev. 6/25) and mandate co-signatures in the EHR before claim release.",
+                "risk_category": "Licensure & LARA Compliance",
+                "risk_vulnerability": "Failure of an LP to provide or document mandated LLP supervision hours.",
+                "risk_impact": "Disciplinary action against LP/LLP licenses; catastrophic retroactive Medicaid clawback audits for years of billed PPS encounters."
             },
-            "lara_4hours": {
-                "label": "Each LLP receives at least 4 hours per month of individual, face-to-face LP supervision.",
-                "remediation": "Block designated 'LP-LLP Supervision' hours directly into LP calendars. If monthly limits are missed, retroactively suspend billing for those hours to prevent billing recoupment."
+            "p1_t2": {
+                "label": "Audit 30 completed psychological/neuropsychological testing charts.",
+                "policy": "CPT Manual Definitions & Medicare LCD guidelines: Under CPT 96130, first-hour evaluation requires documented clinical decision-making and face-to-face interactive feedback.",
+                "target": "100% presence of interactive feedback documentation for CPT 96130",
+                "remediation": "Perform self-disclosure and adjust billing for un-documented feedback. Mandate structured EHR templates for 96130 that explicitly require a timestamped section titled 'Interactive Feedback and Clinical Decision Making' before note locking.",
+                "risk_category": "Coding Specificity",
+                "risk_vulnerability": "Improper use of 96130 or failing to document the 'interactive feedback' component.",
+                "risk_impact": "Fraud, Waste, and Abuse (FWA) compliance risks; severe clawbacks from Medicaid/Commercial payers during routine audits."
             },
-            "lara_signoff": {
-                "label": "Official supervision logs are signed by fully licensed LP and submitted.",
-                "remediation": "Perform a retrospective administrative signature run. Require LPs and LLPs to complete and sign LARA logs prior to releasing the final monthly payroll."
+            "p1_t3": {
+                "label": "Shadow intake and referral triage workflows.",
+                "policy": "SAMHSA CCBHC Access Criteria (2023) & MDHHS CCBHC Handbook: Mandates timely, unimpeded access to care and clear referral velocity tracking.",
+                "target": "Map 100% of the lifecycle from referral to scheduling",
+                "remediation": "Map administrative handoffs and interaction with Prepaid Inpatient Health Plan (PIHP) portals (MHWIN/CHAMPS) to isolate bottleneck points causing scheduling delays.",
+                "risk_category": "CCBHC Compliance",
+                "risk_vulnerability": "Waitlist duration for testing exceeds the SAMHSA/MDHHS mandated timelines for routine or urgent access.",
+                "risk_impact": "Corrective Action Plan (CAP) from the state; potential threat to CCBHC demonstration status and vital PPS funding."
             },
-            "lara_cosignature": {
-                "label": "LPs co-sign clinical notes prior to claim release.",
-                "remediation": "Modify EHR routing rules to prevent any claim involving LLP-rendered psychometrics from being released to CHAMPS until the supervising LP co-signs."
+            "p1_t4": {
+                "label": "Survey internal prescribers, outpatient therapists, and external stakeholders.",
+                "policy": "CARF Accreditation Standards & CCBHC care coordination: Assesses clinical utility, readability, and diagnostic clarity of psychological reports.",
+                "target": ">80% response rate from top 20 referring clinicians",
+                "remediation": "Review the survey results on report readability; standardize report structures to contain standard, actionable interdisciplinary recommendations.",
+                "risk_category": "Clinical Quality",
+                "risk_vulnerability": "Completed reports do not effectively penetrate the Person-Centered Plan (PCP) or guide treatment.",
+                "risk_impact": "Failure of the CCBHC integrated care model; clinical reports act as isolated, low-impact administrative exercises."
             }
         }
     },
-    "BTPRC Compliance (MDHHS APF 167)": {
-        "policy": "MDHHS APF 167 Guidelines, Michigan Mental Health Code, & CCBHC Handbook 8.D.1.5",
+    "Phase II: Operational Analysis & Gap Assessment (Days 31–60)": {
         "tasks": {
-            "btp_unanimous": {
-                "label": "Unanimous committee approval obtained for restrictive BTPs.",
-                "remediation": "Immediately suspend the use of the proposed restrictive interventions. Schedule an urgent BTPRC review session to secure unanimous approval."
+            "p2_t1": {
+                "label": "Conduct CPT 96130-96139 billing denial audit.",
+                "policy": "RCM Clearinghouse 835 Remittance Guidelines: Standardizes claims evaluation based on coding accuracy, bundling, and medical necessity.",
+                "target": "Identify top 3 denial reason codes for psychological testing",
+                "remediation": "Collaborate with RCM/billing teams to extract a 12-month claims dataset. Segment and analyze denial codes like CO-97 (bundled services) and CO-50 (medical necessity) to target corrective training.",
+                "risk_category": "Revenue Cycle Integrity",
+                "risk_vulnerability": "Unresolved automated clearinghouse denials due to structural billing mismatch.",
+                "risk_impact": "Massive compounding revenue leakage and administrative burden for retroactive, uncompensated billing appeals."
             },
-            "btp_composition": {
-                "label": "Committee composition includes LP/BCBA, Physician, and Recipient Rights Representative.",
-                "remediation": "If any key member is absent, reschedule the meeting. Non-CMHSP CCBHCs must route plans to the state-level MDHHS BTPRC through their assigned Certification Specialist."
+            "p2_t2": {
+                "label": "Execute CPT Modifier 59 / XE compliance audit.",
+                "policy": "CMS National Correct Coding Initiative (NCCI) Edits & MDHHS Billing Manual: Prohibits same-day psychologist test administration (96136) and tech administration (96138) without distinguishing modifiers.",
+                "target": "100% accuracy on same-day provider (96136) and tech (96138) billing",
+                "remediation": "Hardcode EHR billing validation rules to automatically flag same-day administration codes. Train billing staff on correctly applying Modifier XE or Modifier 59 to release blocked claims.",
+                "risk_category": "Revenue Cycle (NCCI)",
+                "risk_vulnerability": "Billing provider (96136) and technician (96138) administration on same date without Modifier 59 or XE.",
+                "risk_impact": "Immediate, automated claims denial; post-payment Fraud, Waste, and Abuse (FWA) compliance audit scrutiny."
             },
-            "btp_medical": {
-                "label": "MD/DO comprehensive physical examination completed to rule out biological causes of behavior.",
-                "remediation": "Halt the plan. Schedule an immediate primary care physical exam for the consumer to rule out organic factors like undiagnosed dental pain, infections, or medication side effects."
+            "p2_t3": {
+                "label": "Audit remote CPT 96130 feedback session telehealth modifiers.",
+                "policy": "MDHHS Telehealth Policy & Commercial Payer Guidelines: Requires specific telehealth Modifiers (95/GT) and Place of Service (POS 02/10) to secure virtual feedback reimbursement.",
+                "target": "100% compliance with remote feedback session coding",
+                "remediation": "Configure the EHR telehealth module to automatically append Modifier 95/GT and POS 02/10 whenever a virtual link is generated for a psychological testing encounter.",
+                "risk_category": "Telehealth Regulations",
+                "risk_vulnerability": "Providing remote feedback sessions without appropriate POS and Modifiers.",
+                "risk_impact": "Claim denial or underpayment due to improper site-of-service identification, artificially suppressing realization rates."
             },
-            "btp_fba_attached": {
-                "label": "Structured FBA attached, documenting baseline Antecedent-Behavior-Consequence data.",
-                "remediation": "Deploy a clinical supervisor to execute a rapid 5-day structured behavioral observation. Collect baseline A-B-C data and integrate it into a modified FBA format."
+            "p2_t4": {
+                "label": "Assess workflow navigation of differing PIHP/MCO Prior Authorization (PA) rules.",
+                "policy": "Michigan Medicaid Provider Manual: Governs prior authorization limits and tracking.",
+                "target": "Establish centralized workflow for tracking PIHP/MCO PA thresholds",
+                "remediation": "Embed an EHR scheduling hard stop that blocks testing appointments exceeding 8 hours annually (Meridian limit) without an active, attached PA number.",
+                "risk_category": "Utilization Management",
+                "risk_vulnerability": "Exceeding annual testing limits or failing to secure initial PA from regional PIHPs.",
+                "risk_impact": "Complete forfeiture of payment for the entire testing battery; uncompensated clinical labor by testing psychologists."
             },
-            "btp_no_aversives": {
-                "label": "Zero prohibited aversives or emergency management written as standard responses.",
-                "remediation": "Immediately remove any reference to physical restraints or unpleasant stimuli from the BTP. Re-train staff on Positive Behavior Supports (PBS) and distress tolerance skills (DBT/ACT)."
+            "p2_t5": {
+                "label": "Measure mean and median Turnaround Time (TAT) across clinicians.",
+                "policy": "CARF Accreditation Standards & SAMHSA Access Metrics: Benchmarks timelines for clinical evaluation and rapid treatment initiation.",
+                "target": "Calculate median days from final test administration to signed report in EHR",
+                "remediation": "Segment EHR timestamp data into three intervals: referral-to-authorization, authorization-to-testing, and testing-to-signed-report. Isolate and counsel outlying clinicians.",
+                "risk_category": "CCBHC & CARF Access Timeline",
+                "risk_vulnerability": "Prolonged report turnaround times delaying treatment initiation.",
+                "risk_impact": "Violates the CCBHC care coordination mandate, delaying psychiatric and therapeutic interventions; triggers State CAPs."
+            },
+            "p2_t6": {
+                "label": "Conduct financial overhead analysis of clinical testing batteries.",
+                "policy": "CCBHC PPS Cost Allocation Guidelines: Requires tracking expenditures against the daily encounter prospective payment rate.",
+                "target": "Establish cost-per-assessment ratio ( Pearson, PAR, WPS vendor invoices vs. claim volume)",
+                "remediation": "Cross-reference vendor invoices for digital scoring licenses (Q-interactive, PARiConnect) and consumable kits against Medicaid fee-for-service / PPS revenues to identify high-cost, low-yield instruments.",
+                "risk_category": "Financial Sustainability",
+                "risk_vulnerability": "High operational overhead of diagnostic kits not offset by encounter billing.",
+                "risk_impact": "Unrecognized department deficits and budget imbalances under the value-based CCBHC prospective payment system."
             }
         }
     },
-    "Clinical Documentation & CPT Coding": {
-        "policy": "AMA CPT Manual, CMS National Correct Coding Initiative (NCCI) Edits, & CARF Standards",
+    "Phase III: Synthesis & Strategic Recommendations (Days 61–90)": {
         "tasks": {
-            "cpt_feedback_96130": {
-                "label": "CPT 96130 billing is backed by documented interactive feedback sessions with patient/caregiver.",
-                "remediation": "If feedback is missing, self-disclose and adjust billing or arrange an immediate feedback session if clinically appropriate and within allowable timelines."
+            "p3_t1": {
+                "label": "Develop Stepped-Care Assessment clinical protocol.",
+                "policy": "SAMHSA CCBHC Core Service #2: Screening, Assessment, and Diagnosis. Mandates optimizing resource allocation and clinical triage workflows.",
+                "target": "Draft clinical pathway utilizing brief 96127 screenings prior to full testing",
+                "remediation": "Establish a rigid triage algorithm. Shift low-acuity diagnostic questions to brief screenings (96127 / 90791) at intake, reserving multi-hour, intensive batteries for complex differential diagnosis.",
+                "risk_category": "Utilization Efficiency",
+                "risk_vulnerability": "Highly trained psychologists conducting routine diagnostic work for low-acuity referrals.",
+                "risk_impact": "Artificially inflated waitlists for SMI/SED populations, causing critical bottleneck failures and CCBHC non-compliance."
             },
-            "cpt_time_minimum": {
-                "label": "CPT 96130 evaluation time logged meets the 31-minute threshold minimum.",
-                "remediation": "Halt the claim. Direct the provider to review clinical notes, accurately reconstruct clinical decision-making, and document the correct time spent prior to rebilling."
+            "p3_t2": {
+                "label": "Establish ongoing Assessment KPI Dashboard.",
+                "policy": "CCBHC Continuous Quality Improvement (CQI) Plan: Demands data-driven performance monitoring for clinical management.",
+                "target": "Track 5 core metrics on a live EHR/BI dashboard (Volume, TAT, Denials, Waitlist, Cost)",
+                "remediation": "Coordinate with IT to configure a Business Intelligence dashboard inside the EHR, giving leadership real-time visibility over weekly referral volumes and clinician performance.",
+                "risk_category": "Oversight and Accountability",
+                "risk_vulnerability": "Lack of high-fidelity, real-time tracking leading to administrative and clinical regressions.",
+                "risk_impact": "Unrecognized operational bottlenecks and unresolved billing errors leading to compounding revenue loss over time."
             },
-            "cpt_tech_segregation": {
-                "label": "Technician scoring (96138) strictly segregated from provider admin (96136).",
-                "remediation": "Apply NCCI Modifier 59 or XE to same-day provider and technician encounters. Conduct CPT coding training for the revenue cycle management and billing teams."
+            "p3_t3": {
+                "label": "Deliver formal 'State of Psychological Testing' Executive Appraisal Report.",
+                "policy": "MDHHS & SAMHSA CCBHC Demonstration Guidelines: Mandates rigorous administrative and clinical oversight of certified services.",
+                "target": "Submit comprehensive operational and financial analysis document to executive board",
+                "remediation": "Assemble all manual chart audit findings, billing denial patterns, and overhead metrics into a formalized, high-impact document to secure leadership approval.",
+                "risk_category": "Regulatory Fidelity",
+                "risk_vulnerability": "Omission of documented appraisal findings regarding psychological testing service lines.",
+                "risk_impact": "Non-compliance with State certification requirements; inability to justify cost-based rate rebasing in future demonstration years."
             },
-            "cpt_stratified_audit": {
-                "label": "Randomized 30-case stratified chart audit (adult, pediatric, geriatric) proportionally completed.",
-                "remediation": "Increase administrative hours for the Program Manager. Mandate the completion of the 30-chart review before Phase I expires on Day 30."
-            }
-        }
-    },
-    "CCBHC Access & Triage Velocity": {
-        "policy": "SAMHSA 2023 CCBHC Criteria, MDHHS CCBHC Handbook 8.B.9, & CareConnect360 Integration",
-        "tasks": {
-            "triage_prelim_screening": {
-                "label": "Preliminary screening and risk assessment conducted immediately at first contact.",
-                "remediation": "Mandate that intake staff perform rapid preliminary screenings over the phone or in person, recording all risk parameters in the EHR."
-            },
-            "triage_michicans_locus": {
-                "label": "Required State-designated level-of-care tools (MichiCANS Screener/LOCUS) integrated.",
-                "remediation": "Coordinate with the training department. Ensure all intake clinicians are certified on MichiCANS (for youth) and LOCUS (for adults). Honor existing scores in CareConnect360."
-            },
-            "triage_urgent_1day": {
-                "label": "Urgent assessments scheduled and initiated within 1 business day of contact.",
-                "remediation": "Incorporate open access or same-day walk-in slots for high-acuity referrals. Leverage telehealth modules to bypass regional clinic wait times."
-            },
-            "triage_routine_14day": {
-                "label": "Routine assessments initiated within 14 calendar days of contact.",
-                "remediation": "Configure automated EHR system notifications that flag referrals approaching the 10-day mark to prompt rapid intake scheduling."
-            },
-            "triage_waitlist_interim": {
-                "label": "Zero waitlists maintained; care coordination interim services active.",
-                "remediation": "Deploy immediate interim care coordination services, peer recovery support, and brief screenings (CPT 96127) to engage the client while awaiting full testing."
+            "p3_t4": {
+                "label": "Present 12-month strategic roadmap.",
+                "policy": "CCBHC Certification Program requirement #6: Strategic Planning & Capital Investment.",
+                "target": "Secure executive consensus and approval of top 3 optimization priorities",
+                "remediation": "Formally present the roadmap outlining capital investments (such as digital scoring platform interoperability), centralized LARA tracking, and coding modifier compliance training.",
+                "risk_category": "Long-Term Sustainability",
+                "risk_vulnerability": "Failure to plan for systemic, long-term capital investments in psychological service lines.",
+                "risk_impact": "Operational stagnation, persistent staff burnout due to EHR administrative burdens, and ongoing financial leaks."
             }
         }
     }
 }
 
-phase_2_defs = {
-    "Therapeutic Assessment (TA) Model Deployment": {
-        "policy": "SAMHSA CCBHC Core Service #2 (Screening, Assessment, & Diagnosis) & APA Ethics Section 9",
-        "tasks": {
-            "ta_collaborative_questions": {
-                "label": "Establish collaborative Assessment Questions with consumers at testing inception.",
-                "remediation": "Integrate a 'Collaborative Questions' worksheet into the standard assessment intake packet. Do not allow testing to proceed until these are finalized with the consumer."
-            },
-            "ta_face_valid_ordering": {
-                "label": "Prioritize cognitive and performance tests before projective measures to establish immediate face validity.",
-                "remediation": "Overhaul clinical guidelines to mandate administering performance/cognitive tests first to build patient rapport and face validity before launching complex projective test blocks."
-            },
-            "ta_ais_operationalized": {
-                "label": "Operationalize Assessment Intervention Sessions (AIS) to observe and process experiential avoidance in real-time.",
-                "remediation": "Provide immediate clinical coaching to staff on how to use testing struggles (e.g., frustration on difficult tasks) as a real-time therapeutic mirror for real-world coping."
-            },
-            "ta_synthesis_letter": {
-                "label": "Replace pathology-heavy reports with a personalized, jargon-free synthesis letter written directly to the patient.",
-                "remediation": "Reject standard diagnostic-heavy reports for non-complex cases. Enforce a template for a client-centered letter summarizing findings in plain language as required by person-centered standards."
+# Initialize Session State for audit data
+if 'appraisal_audit' not in st.session_state:
+    st.session_state.appraisal_audit = {}
+    for phase_name, phase_info in audit_definitions.items():
+        for task_id, task_info in phase_info["tasks"].items():
+            st.session_state.appraisal_audit[task_id] = {
+                "compliant": True,
+                "notes": ""
             }
-        }
-    },
-    "EHR Behavior Treatment Plan Overhaul": {
-        "policy": "MDHHS APF 167 Guidelines & Recipient Rights Protection (Michigan Mental Health Code)",
-        "tasks": {
-            "ehp_replacement_behaviors": {
-                "label": "Mandate documentation of positive replacement behaviors and distress tolerance skills (DBT/ACT).",
-                "remediation": "Modify the behavior treatment plan EHR template to include mandatory fields for replacement behaviors and distress tolerance skills, blocking submission if empty."
-            },
-            "ehp_fade_plans": {
-                "label": "Embed mandatory 'fade plans' into BTPs that propose restrictive or intrusive safety interventions.",
-                "remediation": "Enforce a strict technical rule in the EHR: any BTP containing a restrictive intervention must include a clear, measurable plan for fading the restriction."
-            },
-            "ehp_routing_restraints": {
-                "label": "Restructure EHR routing rules to block and flag any plan utilizing physical restraints.",
-                "remediation": "Convene an immediate review of the plan. Re-train staff on Positive Behavior Supports (PBS) and distress tolerance skills (DBT/ACT) to eliminate restraint reliance."
-            }
-        }
-    },
-    "Clinical Workshop Series (Modules 1 & 2)": {
-        "policy": "SAMHSA CCBHC Staff Training & Cultural Competence Criteria (Program Requirement #1)",
-        "tasks": {
-            "ws_module_1_mi": {
-                "label": "Deliver Workshop Module 1 (Motivational Interviewing Mastery) to LPs, LLPs, and psychometrists.",
-                "remediation": "Schedule immediate make-up training blocks. Require staff who missed the session to complete a certified online MI module within 15 calendar days."
-            },
-            "ws_module_2_ea": {
-                "label": "Deliver Workshop Module 2 (Deconstructing Experiential Avoidance), integrating ACT/DBT principles.",
-                "remediation": "Mandate clinical case consultations for non-attendees. Ensure supervisors review current cases for evidence of ACT/DBT integration."
-            },
-            "ws_attendance_rate": {
-                "label": "Achieve a minimum of 90% training completion rate across clinics.",
-                "remediation": "Direct regional supervisors to prioritize workshop attendance by clearing clinician schedules during training slots. Flag non-compliance to the Chief Clinical Officer."
-            }
-        }
-    },
-    "CPT Coding & Denial Audit (Revenue Cycle)": {
-        "policy": "CMS National Correct Coding Initiative (NCCI) Edits & MDHHS Billing Manual",
-        "tasks": {
-            "rcm_historical_audit": {
-                "label": "Conduct a deep-dive CPT coding and denial audit on the previous 12 months of claims.",
-                "remediation": "Allocate additional billing FTE hours to complete the 12-month data extraction and claim-by-claim reconciliation before Phase II expires."
-            },
-            "rcm_96130_verification": {
-                "label": "Verify proper billing of CPT 96130 (first-hour evaluation) and correct use of time-based codes.",
-                "remediation": "Halt suspect claims in the clearinghouse. Audit clinical schedules to reconstruct and verify that provider time met the required 31-minute billing threshold."
-            },
-            "rcm_ncci_modifiers": {
-                "label": "Review correct application of NCCI Modifiers 59 or XE for same-day provider and technician encounters.",
-                "remediation": "Apply retrospective Modifier XE/59 corrections to denied claims. Deliver targeted CPT coding compliance training to the billing and revenue cycle teams."
-            }
-        }
-    }
-}
 
-phase_3_defs = {
-    "Simulated CARF Audit & Chart Reviews": {
-        "policy": "CARF ASPIRE Accreditation Standards & SAMHSA Quality Criteria (Program Requirement #5)",
-        "tasks": {
-            "carf_mock_audit": {
-                "label": "Conduct a mock CARF audit of psychological and behavioral health charts across all 7 CNS clinics.",
-                "remediation": "Form a rapid-response quality team. Focus on reviewing high-risk charts and resolving outstanding documentation gaps immediately."
-            },
-            "carf_soap_notes": {
-                "label": "Verify that clinical notes follow the person-centered SOAP format and are completed within the 24-hour CCBHC window.",
-                "remediation": "Implement daily EHR alerts that flag notes approaching the 24-hour CCBHC deadline. Suspend documentation self-release privileges for chronic late-submitters."
-            },
-            "carf_smart_goals": {
-                "label": "Confirm that SMART goals and the client's own words are written into every IPOS.",
-                "remediation": "Reject and return deficient IPOS files to the primary clinician. Provide 1-on-1 coaching on writing individualized, client-centered treatment plans."
-            }
-        }
-    },
-    "Measurement-Informed Care (MIC) Integration": {
-        "policy": "CARF July 2026 Guidelines & SAMHSA CCBHC Quality Metrics",
-        "tasks": {
-            "mic_ehr_embedding": {
-                "label": "Embed validated screening tools (PHQ-9, GAD-7, DAST-10, AUDIT-C) directly into clinical EHR workflows.",
-                "remediation": "Configure the EHR clinical package to automatically generate the appropriate screening tool during intake and quarterly reassessment intervals."
-            },
-            "mic_clinical_decisions": {
-                "label": "Verify progress notes document treatment adjustments or psychiatric referrals when screening scores show no progress.",
-                "remediation": "Re-train clinicians on how to document clinical decision-making. Notes must explicitly state when a high screening score triggers a change in therapeutic modality or psychiatric referral."
-            },
-            "mic_locus_michicans": {
-                "label": "Confirm that LOCUS and MichiCANS assessments are updated annually and upon changes in condition.",
-                "remediation": "Implement an automated EHR scheduler hard stop. Prevent clinicians from scheduling outpatient psychotherapy if the required level-of-care scores are outdated."
-            }
-        }
-    },
-    "Stepped-Care Assessment Protocol Deployment": {
-        "policy": "SAMHSA CCBHC Demonstration Criteria & MDHHS Access Timelines",
-        "tasks": {
-            "sc_protocol_deployment": {
-                "label": "Formally draft and deploy the 'Stepped-Care Assessment Model' protocol across all clinics.",
-                "remediation": "Secure CCO and Clinical Director approval to release and mandate the new Stepped-Care clinical protocol immediately."
-            },
-            "sc_triage_96127": {
-                "label": "Train intake staff to use brief emotional/behavioral assessments (CPT 96127) at triage.",
-                "remediation": "Deploy immediate refresher training for intake staff. Establish a daily EHR audit to ensure 96127 screens are completed at first contact."
-            },
-            "sc_testing_limits": {
-                "label": "Restrict comprehensive testing batteries strictly to cases with high differential diagnostic ambiguity or cognitive impairment.",
-                "remediation": "Establish a mandatory triage approval workflow. All referrals for 96130 testing must be pre-approved by the Psychological Services Manager."
-            }
-        }
-    },
-    "Assessment KPI Dashboard Wireframing": {
-        "policy": "SAMHSA Continuous Quality Improvement (CQI) Criteria & MDHHS Quality Templates",
-        "tasks": {
-            "kpi_dashboard_design": {
-                "label": "Design and wireframe an EHR Assessment KPI Dashboard to track live weekly metrics.",
-                "remediation": "Partner with the IT and Business Intelligence teams to expedite dashboard construction, utilizing mock data to verify tracking pipelines."
-            },
-            "kpi_metrics_tracking": {
-                "label": "Configure the dashboard to monitor aggregate waitlist duration, average report TAT, and claim denial rates by payer.",
-                "remediation": "Manually extract and track weekly metrics in an intermediate spreadsheet until the automated EHR dashboard integration is fully certified."
-            },
-            "kpi_billing_regressions": {
-                "label": "Integrate historical claims data to prevent future billing regressions and provide executive visibility.",
-                "remediation": "Set up a bi-weekly billing-clinical review committee to analyze real-time denial codes and hardcode billing rules to prevent regressions."
-            }
-        }
-    },
-    "Ambient Clinical AI ROI Case Development": {
-        "policy": "SAMHSA Workforce Support (Quadruple Aim) & CARF ASPIRE Performance Standards",
-        "tasks": {
-            "ai_scribe_evaluation": {
-                "label": "Evaluate the implementation of ambient clinical AI scribes (e.g., Eleos Health) to reduce administrative burdens.",
-                "remediation": "Initiate a 15-day rapid pilot program with a small group of high-volume clinicians to gather hands-on usability data."
-            },
-            "ai_time_reduction": {
-                "label": "Measure the reduction in documentation time (targeting a 70% decrease) and the impact on same-day note completion.",
-                "remediation": "Partner with clinical supervisors to audit time-savings logs, comparing pre-pilot and post-pilot EHR note completion timestamps."
-            },
-            "ai_roi_proposal": {
-                "label": "Draft a comprehensive return-on-investment (ROI) proposal for the executive board detailing compliance gains and time-saving metrics.",
-                "remediation": "Accelerate proposal drafting. Present the final ROI business case to the Chief Financial Officer and Chief Clinical Officer for immediate budget allocation."
-            }
-        }
-    }
-}
-
-# ================= TOP-LEVEL NAVIGATION SELECTOR =================
-
-app_view = st.selectbox(
-    "🔍 Select Appraisal View / Navigation",
-    [
-        "Phase I: Assessment & Baseline (Days 1–30)",
-        "Phase II: Implementation of Clinical Frameworks (Days 31–60)",
-        "Phase III: Quality Assurance & Future Exploration (Days 61–90)",
-        "📈 Progress & Findings Report"
-    ]
+# Selection of the active Phase / View
+phase_selector = st.selectbox(
+    "Select Appraisal Phase to View/Edit:",
+    ["Phase I: Assessment & Baseline (Days 1–30)", 
+     "Phase II: Operational Analysis & Gap Assessment (Days 31–60)", 
+     "Phase III: Synthesis & Strategic Recommendations (Days 61–90)",
+     "Progress & Findings Report (Executive Tab)"]
 )
 
-# Helper function to render a checklist category
-def render_checklist_category(category_name, category_info):
-    st.markdown(f'<div class="policy-tag">{category_info["policy"]}</div>', unsafe_allow_html=True)
-    st.markdown(f"#### **{category_name}**")
+# ----------------- PHASE I VIEW -----------------
+if phase_selector == "Phase I: Assessment & Baseline (Days 1–30)":
+    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    st.markdown("### **Phase I: Assessment & Baseline (Days 1–30)**")
+    st.write("Perform real-time compliance audits. Mark tasks as 'Compliant' or 'Non-Compliant' per the 90-Day Appraisal Plan to view remediation protocols.")
+
+    phase_tasks = audit_definitions["Phase I: Assessment & Baseline (Days 1–30)"]["tasks"]
     
-    for task_id, task_info in category_info["tasks"].items():
-        # Retrieve persistent session state
-        is_compliant_state = st.session_state.audit_data[task_id]["compliant"]
+    for task_id, task_info in phase_tasks.items():
+        st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
+        st.markdown(f'<div class="policy-badge">{task_info["policy"]}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="target-badge">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        st.markdown(f"**{task_info['label']}**")
         
-        # Use columns for checklist representation
-        col1, col2 = st.columns([3, 1])
-        with col1:
-            st.write(task_info["label"])
-        with col2:
-            compliance_val = st.selectbox(
-                "Status",
+        # Pull current state
+        curr_state = st.session_state.appraisal_audit[task_id]["compliant"]
+        
+        col_lbl, col_sel = st.columns([2, 2])
+        with col_lbl:
+            st.write("Current Status:")
+        with col_sel:
+            status_val = st.radio(
+                "Status selector",
                 ["Compliant", "Non-Compliant"],
-                index=0 if is_compliant_state else 1,
-                key=f"sel_{task_id}",
+                index=0 if curr_state else 1,
+                key=f"status_{task_id}",
+                horizontal=True,
                 label_visibility="collapsed"
             )
+        
+        # Save to session state
+        st.session_state.appraisal_audit[task_id]["compliant"] = (status_val == "Compliant")
+        
+        # Render remediation instructions if marked Non-Compliant
+        if status_val == "Non-Compliant":
+            st.markdown(
+                f'<div class="remediation-box">'
+                f'🚨 <strong>Remediation Directive:</strong> {task_info["remediation"]}<br><br>'
+                f'⚠️ <strong>Systemic Vulnerability:</strong> {task_info["risk_vulnerability"]}<br>'
+                f'💥 <strong>Operational Impact:</strong> {task_info["risk_impact"]}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
             
-        # Update session state based on selection
-        is_compliant = (compliance_val == "Compliant")
-        st.session_state.audit_data[task_id]["compliant"] = is_compliant
+        st.markdown('</div>', unsafe_allow_html=True)
         
-        # Context-specific Remediation Box (Renders only on Out of Compliance)
-        if not is_compliant:
-            st.markdown(
-                f'<div style="background-color:#FFF3CD; padding:12px; border-radius:12px; border-left: 5px solid #FFC107; margin-bottom:12px; font-size:12.5px; color:#5D4037;">'
-                f'⚠️ <strong>Out of Compliance Remediation Protocol:</strong><br>{task_info["remediation"]}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-    st.markdown("<hr style='margin: 8px 0 20px 0;'>", unsafe_allow_html=True)
+    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    st.markdown("#### **🧠 CliftonStrengths Integration: Phase I Leadership**")
+    st.write("Dr. Scott Niewinski should leverage his dominant talents to drive Phase I baseline auditing:")
+    
+    with st.expander("🎓 Learner® — Meticulous Chart & LARA Auditing"):
+        st.write("Apply the Learner drive to meticulously study licensing regulations and CPT guidelines. Treat the **30-case stratified chart audit** and LARA log review as active, intellectually engaging learning journeys from baseline discovery to full clinical mastery.")
+    with st.expander("🎯 Strategic® — Workflow Bottleneck Mapping"):
+        st.write("Use the Strategic talent to automatically sort through the clutter of referral workflows. Spot underlying patterns of delay as testing requests move through EHR authorization queues toward PIHP portals.")
+    with st.expander("🤝 Individualization® — Tailored LLP Mentoring"):
+        st.write("Acknowledge the unique clinical and writing styles of Limited License Psychologists (LLPs). Turn chart audit deficiencies into positive, customized growth plans during supervision sessions rather than issuing standardized reprimands.")
+    with st.expander("💡 Ideation® — Designing Triage shadow frameworks"):
+        st.write("Brainstorm out-of-the-box, highly engaging shadowing techniques and intake filters that capture baseline qualitative experiences without disrupting ongoing client care.")
+    with st.expander("🔍 Intellection® — Deep Root-Cause Compliance Analysis"):
+        st.write("Engage in focused, introspective analysis of why supervision logs or documentation loops failed in the past, aiming for sustainable, systemic solutions.")
 
-# Helper function to render CliftonStrengths for the active phase
-def render_strengths_expander(strengths_data):
-    st.subheader("💡 CliftonStrengths Leadership Guidance")
-    st.write("Leverage Scott's Top 5 strengths during this phase:")
-    for s_name, s_info in strengths_data.items():
-        with st.expander(s_name):
-            st.markdown(f"**Operational Focus:** *{s_info['focus']}*")
-            st.write(f"**Phase Application:** {s_info['application']}")
-
-# ================= RENDER SELECTED VIEW =================
-
-if app_view == "Phase I: Assessment & Baseline (Days 1–30)":
-    st.markdown('<div class="phase-badge">Phase I: Days 1–30</div>', unsafe_allow_html=True)
-    st.write("Conduct comprehensive, department-wide audits, analyze legacy workflows, and integrate with committees to establish a baseline.")
+# ----------------- PHASE II VIEW -----------------
+elif phase_selector == "Phase II: Operational Analysis & Gap Assessment (Days 31–60)":
+    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    st.markdown("### **Phase II: Operational Analysis & Gap Assessment (Days 31–60)**")
     
-    for cat_name, cat_info in phase_1_defs.items():
-        render_checklist_category(cat_name, cat_info)
-        
-    p1_strengths = {
-        "🧠 Learner": {
-            "focus": "Meticulous knowledge discovery and process audits",
-            "application": "Meticulously executes the randomized 30-case stratified chart audit and LARA log review by treating compliance mapping as an active intellectual journey from discovery to full clinical mastery."
-        },
-        "🎯 Strategic": {
-            "focus": "Billing modifier patterns and workflow triage algorithms",
-            "application": "Quickly identifies systemic revenue leakage patterns within historical CPT denials and establishes immediate guidelines for the correct application of NCCI billing modifiers."
-        },
-        "🔍 Intellection": {
-            "focus": "Deep root-cause analyses of compliance bottlenecks",
-            "application": "Introspectively ponders systemic bottlenecks within LP-LLP supervision ratios and designs a centralized tracking portal rather than short-term paper workarounds."
-        }
-    }
-    render_strengths_expander(p1_strengths)
-
-elif app_view == "Phase II: Implementation of Clinical Frameworks (Days 31–60)":
-    st.markdown('<div class="phase-badge">Phase II: Days 31–60</div>', unsafe_allow_html=True)
-    st.write("Deploy clinical overhauls, roll out the Therapeutic Assessment model, deliver staff clinical workshops, and restructure EHR behavior templates.")
+    # CARRYOVER LOGIC: Phase I to Phase II
+    # Check if there are any non-compliant items in Phase I
+    phase1_tasks = audit_definitions["Phase I: Assessment & Baseline (Days 1–30)"]["tasks"]
+    p1_non_compliant_keys = [tid for tid in phase1_tasks.keys() if not st.session_state.appraisal_audit[tid]["compliant"]]
     
-    for cat_name, cat_info in phase_2_defs.items():
-        render_checklist_category(cat_name, cat_info)
-        
-    p2_strengths = {
-        "💡 Ideation": {
-            "focus": "Fascinating connections and creative clinical templates",
-            "application": "Conceives out-of-the-box templates for the EHR behavior treatment plans that structurally require positive replacement behaviors, transforming restrictive plans into positive supports."
-        },
-        "🤝 Individualization": {
-            "focus": "Tailored LLP coaching and supportive mentoring",
-            "application": "Recognizes the unique clinical writing styles and developmental stages of junior LLPs during the roll-out of Workshop Module 1 (Motivational Interviewing), customizing feedback."
-        },
-        "🎯 Strategic": {
-            "focus": "Transitioning legacy diagnostic workflows",
-            "application": "Maps out alternative pathways to smoothly transition psychologists and psychometrists from standard multi-hour testing to the collaborative Therapeutic Assessment model."
-        }
-    }
-    render_strengths_expander(p2_strengths)
-
-elif app_view == "Phase III: Quality Assurance & Future Exploration (Days 61–90)":
-    st.markdown('<div class="phase-badge">Phase III: Days 61–90</div>', unsafe_allow_html=True)
-    st.write("Conduct mock CARF audits, integrate Measurement-Informed Care (MIC), deploy the Stepped-Care Assessment model, and draft the clinical AI ROI business case.")
-    
-    for cat_name, cat_info in phase_3_defs.items():
-        render_checklist_category(cat_name, cat_info)
-        
-    p3_strengths = {
-        "🧠 Learner": {
-            "focus": "Deep tech integration and ambient AI efficacy data",
-            "application": "Deep-dives into the technical specifications and clinical efficacy data of ambient behavioral AI to draft a watertight business case for executive leadership."
-        },
-        "💡 Ideation": {
-            "focus": "Designing the Stepped-Care triage algorithm",
-            "application": "Integrates brief emotional screenings (CPT 96127) at triage to build a natural clinical filter, resolving waitlist bottlenecks without denying immediate care access."
-        },
-        "🔍 Intellection": {
-            "focus": "Mock CARF chart auditing and root-cause compliance",
-            "application": "Conducts deep, introspective chart reviews during mock CARF audits to ensure SOAP notes and IPOS files are structurally bulletproof against external recoupments."
-        }
-    }
-    render_strengths_expander(p3_strengths)
-
-elif app_view == "📈 Progress & Findings Report":
-    st.markdown('<div class="phase-badge">Executive Status Report</div>', unsafe_allow_html=True)
-    st.write("Comprehensive operational and compliance summary of CNS Healthcare's 90-Day Psychological Services Appraisal. Ready for presentation to supervisors and executives.")
-    
-    # CALCULATE METRICS
-    # Flatten definitions to map task compliance
-    p1_keys = [k for cat in phase_1_defs.values() for k in cat["tasks"].keys()]
-    p2_keys = [k for cat in phase_2_defs.values() for k in cat["tasks"].keys()]
-    p3_keys = [k for cat in phase_3_defs.values() for k in cat["tasks"].keys()]
-    total_keys = p1_keys + p2_keys + p3_keys
-    
-    p1_comp = sum(1 for k in p1_keys if st.session_state.audit_data[k]["compliant"])
-    p2_comp = sum(1 for k in p2_keys if st.session_state.audit_data[k]["compliant"])
-    p3_comp = sum(1 for k in p3_keys if st.session_state.audit_data[k]["compliant"])
-    total_comp = sum(1 for k in total_keys if st.session_state.audit_data[k]["compliant"])
-    
-    p1_pct = (p1_comp / len(p1_keys)) * 100
-    p2_pct = (p2_comp / len(p2_keys)) * 100
-    p3_pct = (p3_comp / len(p3_keys)) * 100
-    total_pct = (total_comp / len(total_keys)) * 100
-    
-    non_comp_total = len(total_keys) - total_comp
-    
-    # RENDER EXECUTIVE STATS CARDS
-    st.markdown("### **Executive Summary Dashboard**")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Overall Compliance", f"{total_pct:.1f}%", f"{total_comp}/{len(total_keys)} Tasks")
-    with col2:
-        st.metric("Active Vulnerabilities", f"{non_comp_total}", delta_color="inverse")
-        
-    st.progress(total_comp / len(total_keys))
-    
-    # PHASE BREAKDOWN EXPANDERS
-    st.markdown("### **Phase Progress Breakdown**")
-    
-    with st.expander(f"Phase I Progress: {p1_pct:.1f}% Complete", expanded=True):
-        st.write(f"**Phase I Status:** *{p1_comp} of {len(p1_keys)} tasks compliant.*")
-        for cat_name, cat_info in phase_1_defs.items():
-            st.markdown(f"**{cat_name}**")
-            for t_id, t_info in cat_info["tasks"].items():
-                is_comp = st.session_state.audit_data[t_id]["compliant"]
-                mark = "✅ Compliant" if is_comp else "❌ Non-Compliant"
-                st.markdown(f"- *{t_info['label']}* — **{mark}**")
-                if not is_comp:
-                    st.markdown(f"  *🛠️ Remediation:* {t_info['remediation']}")
-                    
-    with st.expander(f"Phase II Progress: {p2_pct:.1f}% Complete", expanded=False):
-        st.write(f"**Phase II Status:** *{p2_comp} of {len(p2_keys)} tasks compliant.*")
-        for cat_name, cat_info in phase_2_defs.items():
-            st.markdown(f"**{cat_name}**")
-            for t_id, t_info in cat_info["tasks"].items():
-                is_comp = st.session_state.audit_data[t_id]["compliant"]
-                mark = "✅ Compliant" if is_comp else "❌ Non-Compliant"
-                st.markdown(f"- *{t_info['label']}* — **{mark}**")
-                if not is_comp:
-                    st.markdown(f"  *🛠️ Remediation:* {t_info['remediation']}")
-
-    with st.expander(f"Phase III Progress: {p3_pct:.1f}% Complete", expanded=False):
-        st.write(f"**Phase III Status:** *{p3_comp} of {len(p3_keys)} tasks compliant.*")
-        for cat_name, cat_info in phase_3_defs.items():
-            st.markdown(f"**{cat_name}**")
-            for t_id, t_info in cat_info["tasks"].items():
-                is_comp = st.session_state.audit_data[t_id]["compliant"]
-                mark = "✅ Compliant" if is_comp else "❌ Non-Compliant"
-                st.markdown(f"- *{t_info['label']}* — **{mark}**")
-                if not is_comp:
-                    st.markdown(f"  *🛠️ Remediation:* {t_info['remediation']}")
-
-    # EXECUTIVE FINDINGS & RISK MATRIX
-    st.markdown("### 🚨 **Regulatory & Operational Risk Matrix**")
-    st.write("Dynamic exposure summary compiled based on flagged vulnerabilities:")
-    
-    # Calculate risks dynamically based on checkbox selections
-    risks_exposed = []
-    
-    # Risk 1: Licensure and LARA Audit Risk
-    if not (st.session_state.audit_data["lara_logs_exist"]["compliant"] and st.session_state.audit_data["lara_4hours"]["compliant"] and st.session_state.audit_data["lara_signoff"]["compliant"]):
-        risks_exposed.append({
-            "category": "Licensure & LARA",
-            "threat": "Failure to impeccably document 4 hours/month LP-LLP individual supervision.",
-            "impact": "Disciplinary licensure action; retroactive Medicaid PPS-1 encounter billing recoupment.",
-            "mitigation": "Immediately implement automated HR tracking evaluation logs (LARA/BPL, Rev. 6/25). BlockLP calendars."
-        })
-        
-    # Risk 2: Medicaid Billing Conflict Risk
-    if not (st.session_state.audit_data["rcm_ncci_modifiers"]["compliant"] and st.session_state.audit_data["cpt_tech_segregation"]["compliant"]):
-        risks_exposed.append({
-            "category": "Revenue Cycle (NCCI)",
-            "threat": "Billing provider (96136) and technician (96138) admin on the same day without correct modifiers.",
-            "impact": "Automated clearinghouse claim rejections, suppressed department realization rates, and FWA scrutiny.",
-            "mitigation": "Enforce mandatory EHR check-outs utilizing Modifier XE or 59 for separate same-day encounters."
-        })
-        
-    # Risk 3: Recipient Rights Violation
-    if not (st.session_state.audit_data["btp_unanimous"]["compliant"] and st.session_state.audit_data["btp_medical"]["compliant"] and st.session_state.audit_data["btp_no_aversives"]["compliant"]):
-        risks_exposed.append({
-            "category": "Recipient Rights",
-            "threat": "BTPs proposing restrictive or intrusive interventions without prerequisite MD physicals or BTPRC quorum.",
-            "impact": "State-level recipient rights citations; loss of CCBHC certification status; legal liability.",
-            "mitigation": "Order the immediate cessation of unapproved physical management or restrictive protocols; trigger emergency BTPRC quorums."
-        })
-
-    # Risk 4: CCBHC decertification waitlists
-    if not (st.session_state.audit_data["triage_routine_14day"]["compliant"] and st.session_state.audit_data["sc_testing_limits"]["compliant"]):
-        risks_exposed.append({
-            "category": "CCBHC Certification",
-            "threat": "Testing turnaround times and waitlists exceeding SAMHSA/MDHHS-mandated timelines.",
-            "impact": "State-issued Corrective Action Plans (CAPs); decertification of demonstration site status.",
-            "mitigation": "Formally deploy the Stepped-Care Assessment model. Filter low-acuity requests at triage using CPT 96127 screenings."
-        })
-
-    if risks_exposed:
-        for r in risks_exposed:
-            st.markdown(
-                f'<div style="background-color:#FFEBEE; padding:15px; border-radius:15px; border-left:6px solid #D32F2F; margin-bottom:15px; font-size:12.5px; color:#212121;">'
-                f'🔴 <strong>[{r["category"]}] Risk Exposure Detected</strong><br>'
-                f'<strong>Threat:</strong> {r["threat"]}<br>'
-                f'<strong>Operational Impact:</strong> {r["impact"]}<br>'
-                f'<strong>Immediate Directive:</strong> {r["mitigation"]}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
+    if p1_non_compliant_keys:
+        st.markdown('<div class="carryover-alert-box">', unsafe_allow_html=True)
+        st.markdown("🚨 **Critical Carryover Alert: Unresolved Phase I Vulnerabilities Detected!**")
+        st.write("The following baseline components remain out of compliance, directly threatening the validity of Phase II operational and financial analyses:")
+        for tid in p1_non_compliant_keys:
+            st.markdown(f"• **{phase1_tasks[tid]['label']}** — *Unresolved risk of licensure disciplinary action or Medicaid recoupment.*")
+        st.markdown("</div>", unsafe_allow_html=True)
     else:
-        st.success("🎉 **Spectacular Quality Status!** Zero high-risk compliance exposures are currently detected. The department is robustly insulated against audit and recoupment vulnerabilities.")
+        st.markdown('<div style="background-color: #E8F5E9; padding: 12px; border-radius: 12px; border-left: 5px solid #2E7D32; margin-bottom: 16px; font-size: 12px; color: #2E7D32;">✓ <strong>All Phase I baselines are verified and compliant.</strong> Transitioning cleanly into Phase II operational audits.</div>', unsafe_allow_html=True)
 
-    # GENERAL REPORT FOOTER
-    st.markdown("<hr style='margin-top: 30px;'>", unsafe_allow_html=True)
-    st.markdown(
-        f'<div style="font-size:11px; color:#546E7A; text-align:center; padding:15px; background-color:#ECEFF1; border-radius:10px;">'
-        f'<strong>Appraisal Status Report</strong> • CNS Healthcare Department of Psychological Services<br>'
-        f'Generated dynamically for Executive Review • Data Current as of August 2026<br>'
-        f'Verified in accordance with SAMHSA, Michigan LARA, and MDHHS APF 167 guidelines.</div>',
-        unsafe_allow_html=True
-    )
+    phase_tasks = audit_definitions["Phase II: Operational Analysis & Gap Assessment (Days 31–60)"]["tasks"]
+    
+    for task_id, task_info in phase_tasks.items():
+        st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
+        st.markdown(f'<div class="policy-badge">{task_info["policy"]}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="target-badge">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        st.markdown(f"**{task_info['label']}**")
+        
+        # Pull current state
+        curr_state = st.session_state.appraisal_audit[task_id]["compliant"]
+        
+        col_lbl, col_sel = st.columns([2, 2])
+        with col_lbl:
+            st.write("Current Status:")
+        with col_sel:
+            status_val = st.radio(
+                "Status selector",
+                ["Compliant", "Non-Compliant"],
+                index=0 if curr_state else 1,
+                key=f"status_{task_id}",
+                horizontal=True,
+                label_visibility="collapsed"
+            )
+        
+        # Save to session state
+        st.session_state.appraisal_audit[task_id]["compliant"] = (status_val == "Compliant")
+        
+        # Render remediation instructions if marked Non-Compliant
+        if status_val == "Non-Compliant":
+            st.markdown(
+                f'<div class="remediation-box">'
+                f'🚨 <strong>Remediation Directive:</strong> {task_info["remediation"]}<br><br>'
+                f'⚠️ <strong>Systemic Vulnerability:</strong> {task_info["risk_vulnerability"]}<br>'
+                f'💥 <strong>Operational Impact:</strong> {task_info["risk_impact"]}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+            
+        st.markdown('</div>', unsafe_allow_html=True)
 
-# Disclaimer Footer
+# ----------------- PHASE III VIEW -----------------
+elif phase_selector == "Phase III: Synthesis & Strategic Recommendations (Days 61–90)":
+    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    st.markdown("### **Phase III: Synthesis & Strategic Recommendations (Days 61–90)**")
+    
+    # CARRYOVER LOGIC: Phase II to Phase III
+    phase2_tasks = audit_definitions["Phase II: Operational Analysis & Gap Assessment (Days 31–60)"]["tasks"]
+    p2_non_compliant_keys = [tid for tid in phase2_tasks.keys() if not st.session_state.appraisal_audit[tid]["compliant"]]
+    
+    if p2_non_compliant_keys:
+        st.markdown('<div class="carryover-alert-box">', unsafe_allow_html=True)
+        st.markdown("🚨 **Critical Carryover Alert: Unresolved Phase II Gaps Detected!**")
+        st.write("The following operational and financial gaps remain unresolved. Proposing Phase III strategic recommendations is compromised due to un-quantified or unaligned baselines:")
+        for tid in p2_non_compliant_keys:
+            st.markdown(f"• **{phase2_tasks[tid]['label']}** — *Unresolved risk of billing denials or uncompensated clinical work.*")
+        st.markdown("</div>", unsafe_allow_html=True)
+    else:
+        st.markdown('<div style="background-color: #E8F5E9; padding: 12px; border-radius: 12px; border-left: 5px solid #2E7D32; margin-bottom: 16px; font-size: 12px; color: #2E7D32;">✓ <strong>All Phase II analytical audits are verified and compliant.</strong> Ready to synthesize strategic recommendations.</div>', unsafe_allow_html=True)
+
+    phase_tasks = audit_definitions["Phase III: Synthesis & Strategic Recommendations (Days 61–90)"]["tasks"]
+    
+    for task_id, task_info in phase_tasks.items():
+        st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
+        st.markdown(f'<div class="policy-badge">{task_info["policy"]}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="target-badge">Target: {task_info["target"]}</div>', unsafe_allow_html=True)
+        st.markdown(f"**{task_info['label']}**")
+        
+        # Pull current state
+        curr_state = st.session_state.appraisal_audit[task_id]["compliant"]
+        
+        col_lbl, col_sel = st.columns([2, 2])
+        with col_lbl:
+            st.write("Current Status:")
+        with col_sel:
+            status_val = st.radio(
+                "Status selector",
+                ["Compliant", "Non-Compliant"],
+                index=0 if curr_state else 1,
+                key=f"status_{task_id}",
+                horizontal=True,
+                label_visibility="collapsed"
+            )
+        
+        # Save to session state
+        st.session_state.appraisal_audit[task_id]["compliant"] = (status_val == "Compliant")
+        
+        # Render remediation instructions if marked Non-Compliant
+        if status_val == "Non-Compliant":
+            st.markdown(
+                f'<div class="remediation-box">'
+                f'🚨 <strong>Remediation Directive:</strong> {task_info["remediation"]}<br><br>'
+                f'⚠️ <strong>Systemic Vulnerability:</strong> {task_info["risk_vulnerability"]}<br>'
+                f'💥 <strong>Operational Impact:</strong> {task_info["risk_impact"]}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+            
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# ----------------- EXECUTIVE REPORT VIEW -----------------
+elif phase_selector == "Progress & Findings Report (Executive Tab)":
+    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; border: 2px solid #4A154B; padding: 15px; border-radius: 12px; background-color: #F3E5F5; margin-bottom: 20px;'>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #4A154B; margin: 0; font-weight: 800; font-size:18px;'>90-DAY PSYCHOLOGICAL SERVICES APPRAISAL</h3>", unsafe_allow_html=True)
+    st.markdown("<h4 style='color: #2E7D32; margin: 5px 0 0 0; font-weight: 700; font-size:14px;'>EXECUTIVE PROGRESS & FINDINGS REPORT</h4>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color: #7A8B7B; font-size: 11px; margin: 5px 0 0 0;'>Prepared for: CNS Healthcare Clinical & Executive Leadership<br>Auditor: Dr. Scott Niewinski, Psy.D., Manager of Psychological Services</p>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+    
+    # Calculate global metrics
+    all_tasks = []
+    compliant_count = 0
+    non_compliant_list = []
+    compliant_list = []
+    
+    for phase_name, phase_info in audit_definitions.items():
+        for task_id, task_info in phase_info["tasks"].items():
+            is_comp = st.session_state.appraisal_audit[task_id]["compliant"]
+            all_tasks.append((task_id, task_info, phase_name, is_comp))
+            if is_comp:
+                compliant_count += 1
+                compliant_list.append((task_info, phase_name))
+            else:
+                non_compliant_list.append((task_info, phase_name))
+                
+    total_count = len(all_tasks)
+    comp_pct = (compliant_count / total_count) * 100
+    
+    # Executive Scorecards
+    col_pct, col_non = st.columns(2)
+    with col_pct:
+        st.metric("Total Compliance Score", f"{comp_pct:.1f}%", f"{compliant_count}/{total_count} Verified")
+    with col_non:
+        st.metric("Identified Compliance Gaps", f"{len(non_compliant_list)}", delta="- Active Gaps", delta_color="inverse")
+        
+    st.progress(compliant_count / total_count)
+    st.markdown('<div class="purple-divider"></div>', unsafe_allow_html=True)
+    
+    # Detailed section breakups
+    st.markdown("### **🔍 Detailed Appraisal Findings**")
+    
+    # Compliant Items Summary
+    if compliant_list:
+        with st.expander("🟢 Verified Strengths & Compliant Areas", expanded=True):
+            for t_info, p_name in compliant_list:
+                st.markdown(f"✓ **{t_info['label']}** ({p_name})")
+                st.markdown(f"<span style='font-size:11px; color:#2E7D32;'>Policy: {t_info['policy']}</span>", unsafe_allow_html=True)
+                st.markdown("<hr style='margin: 6px 0;'>", unsafe_allow_html=True)
+    
+    # Non-Compliant Gaps Summary with dynamic Remediation Directives
+    if non_compliant_list:
+        st.markdown("### **🔴 Critical Vulnerabilities & Active Risk Matrix**")
+        st.write("The following items are out of compliance and present active regulatory, financial, or operational liabilities:")
+        
+        for t_info, p_name in non_compliant_list:
+            st.markdown(f"<div style='border: 1.5px solid #FFCDD2; border-radius: 12px; padding: 14px; margin-bottom: 12px; background-color: #FFF5F5;'>", unsafe_allow_html=True)
+            st.markdown(f"<strong style='color:#C62828;'>[GAP] {t_info['label']}</strong><br><span style='font-size:11px; color:#78909C;'>Phase: {p_name}</span>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 8px 0 4px 0; font-size:12px;'><strong>Regulatory Policy:</strong> {t_info['policy']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px;'><strong>Target Metric:</strong> {t_info['target']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #D32F2F;'><strong>Active Risk Category:</strong> {t_info['risk_category']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #5D4037;'><strong>Vulnerability:</strong> {t_info['risk_vulnerability']}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #C62828;'><strong>Operational Impact:</strong> {t_info['risk_impact']}</p>", unsafe_allow_html=True)
+            
+            st.markdown(
+                f'<div style="background-color: #FFF9C4; padding: 10px; border-radius: 8px; border-left: 4px solid #FBC02D; margin-top: 8px; font-size: 12px; color: #5D4037;">'
+                f'🛠️ <strong>REMEDIATION DIRECTIVE:</strong> {t_info["remediation"]}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+            st.markdown("</div>", unsafe_allow_html=True)
+    else:
+        st.success("🎉 Spectacular! All 90-Day appraisal deliverables are verified as 100% compliant with LARA, MDHHS, and CARF guidelines. No active risks detected.")
+
+# Sticky Footer
 st.markdown("<hr style='margin-top: 30px;'>", unsafe_allow_html=True)
 st.markdown(
-    '<div style="font-size:10px; color:#90A4AE; text-align:center; padding-bottom:20px;">'
-    'CNS Healthcare psychological services compliance platform is configured in strict accordance with '
-    'Michigan LARA (MCL 333.18223), MDHHS APF 167, and SAMHSA CCBHC parameters.</div>',
+    '<div style="font-size:10px; color:#90A4AE; text-align:center; padding-bottom:15px;">'
+    'CNS Healthcare Appraisal Dashboard • Strictly Grounded in "90-Day Psychological Services Appraisal Plan.docx"'
+    '</div>',
     unsafe_allow_html=True
 )
