@@ -11,182 +11,171 @@ st.set_page_config(
 # Custom CSS for Dark Purple, Digital Scientific & Matrix-inspired theme (Purple, Green, and White color scheme)
 st.markdown("""
 <style>
-    /* Main body background & Scientific-Digital canvas layout */
-    .stApp {
-        background: radial-gradient(circle at center, #1E052D 0%, #0C0117 100%) !important;
-        color: #FFFFFF !important;
-        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif !important;
+/* Main body background & Scientific-Digital canvas layout */
+.stApp {
+    background: radial-gradient(circle at center, #1E052D 0%, #0C0117 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif !important;
+    position: relative;
+}
+/* Glowing digital grid overlay */
+.stApp::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 255, 102, 0.015) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0, 255, 102, 0.015) 1px, transparent 1px);
+    background-size: 25px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
+/* Device frame mockup for Samsung S26 Ultra centered canvas */
+@media (min-width: 450px) {
+    .block-container {
+        max-width: 440px !important;
+        padding: 24px !important;
+        background: rgba(18, 4, 30, 0.95) !important;
+        border-radius: 40px !important;
+        box-shadow: 0 0 40px rgba(0, 255, 102, 0.15) !important;
+        margin-top: 15px !important;
+        margin-bottom: 25px !important;
+        border: 4px solid #4E146F !important; /* Deep Purple Frame */
         position: relative;
+        z-index: 1;
     }
-    
-    /* Glowing digital grid overlay */
-    .stApp::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: 
-            linear-gradient(rgba(0, 255, 102, 0.015) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 102, 0.015) 1px, transparent 1px);
-        background-size: 25px 20px;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    /* Device frame mockup for Samsung S26 Ultra centered canvas */
-    @media (min-width: 450px) {
-        .block-container {
-            max-width: 440px !important;
-            padding: 24px !important;
-            background: rgba(18, 4, 30, 0.95) !important;
-            border-radius: 40px !important;
-            box-shadow: 0 0 40px rgba(0, 255, 102, 0.15) !important;
-            margin-top: 15px !important;
-            margin-bottom: 25px !important;
-            border: 4px solid #4E146F !important; /* Deep Purple Frame */
-            position: relative;
-            z-index: 1;
-        }
-    }
-    
-    /* Scientific holographic card styling */
-    .app-card {
-        background: rgba(30, 8, 48, 0.75) !important;
-        border: 1px solid rgba(0, 255, 102, 0.2) !important;
-        border-radius: 16px !important;
-        padding: 16px !important;
-        margin-bottom: 16px !important;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
-        backdrop-filter: blur(10px) !important;
-        transition: all 0.3s ease !important;
-    }
-    .app-card:hover {
-        border-color: rgba(0, 255, 102, 0.6) !important;
-        box-shadow: 0 0 15px rgba(0, 255, 102, 0.25) !important;
-    }
-    
-    /* Glowing typography headers */
-    .app-title {
-        font-size: 24px !important;
-        font-weight: 900 !important;
-        color: #FFFFFF !important;
-        text-shadow: 0 0 15px rgba(0, 255, 102, 0.6) !important;
-        text-align: center !important;
-        font-family: 'Courier New', Courier, monospace !important;
-        letter-spacing: 1px !important;
-        margin-bottom: 2px !important;
-    }
-    
-    .app-subtitle {
-        font-size: 11px !important;
-        color: #00FF66 !important; /* Matrix/Vibrant Green */
-        text-align: center !important;
-        font-family: 'Courier New', Courier, monospace !important;
-        letter-spacing: 2px !important;
-        margin-bottom: 24px !important;
-        text-transform: uppercase !important;
-        font-weight: bold !important;
-    }
-    
-    /* Policy and Target digital readouts */
-    .policy-label {
-        font-size: 11px;
-        font-weight: 700;
-        background-color: rgba(78, 20, 111, 0.4); /* Purple tint */
-        color: #E1BEE7; /* Light Purple text */
-        padding: 4px 10px;
-        border-radius: 8px;
-        display: inline-block;
-        margin-bottom: 8px;
-        border: 1px solid rgba(78, 20, 111, 0.6);
-        font-family: monospace;
-    }
-    
-    .target-label {
-        font-size: 11px;
-        font-weight: 700;
-        background-color: rgba(0, 255, 102, 0.08); /* Green tint */
-        color: #00FF66; /* Vibrant Green text */
-        padding: 4px 10px;
-        border-radius: 8px;
-        display: inline-block;
-        margin-bottom: 8px;
-        margin-left: 4px;
-        border: 1px solid rgba(0, 255, 102, 0.3);
-        font-family: monospace;
-    }
-
-    /* Customized Popover Button (Scientific Bubble Node) */
-    div.stPopover > button {
-        background-color: rgba(0, 255, 102, 0.05) !important;
-        border: 1px solid rgba(0, 255, 102, 0.3) !important;
-        color: #00FF66 !important;
-        border-radius: 8px !important;
-        font-size: 10px !important;
-        font-family: 'Courier New', Courier, monospace !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        padding: 2px 8px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 0 5px rgba(0, 255, 102, 0.1) !important;
-    }
-    div.stPopover > button:hover {
-        background-color: rgba(0, 255, 102, 0.15) !important;
-        border-color: #00FF66 !important;
-        box-shadow: 0 0 10px rgba(0, 255, 102, 0.4) !important;
-        color: #FFFFFF !important;
-    }
-    
-    /* Dialog/Popover Inner styling */
-    .bubble-header {
-        font-size: 14px;
-        color: #00FF66;
-        font-family: monospace;
-        font-weight: bold;
-        border-bottom: 1px solid rgba(0, 255, 102, 0.3);
-        padding-bottom: 4px;
-        margin-bottom: 8px;
-    }
-    
-    .bubble-policy {
-        font-size: 11px;
-        color: #E1BEE7;
-        background: rgba(78, 20, 111, 0.3);
-        padding: 6px;
-        border-radius: 6px;
-        border-left: 3px solid #9C27B0;
-        margin-bottom: 8px;
-    }
-
-    /* Standardized remedial and alert styles */
-    .remedy-banner {
-        background-color: rgba(251, 192, 45, 0.1) !important;
-        border-left: 4px solid #FBC02D !important;
-        border: 1px solid rgba(251, 192, 45, 0.25) !important;
-        padding: 12px !important;
-        border-radius: 8px !important;
-        margin-top: 10px !important;
-        font-size: 12px !important;
-        color: #FFE082 !important;
-    }
-    
-    .cascade-alert {
-        background-color: rgba(211, 47, 47, 0.12) !important;
-        border: 1px solid rgba(211, 47, 47, 0.3) !important;
-        border-left: 5px solid #D32F2F !important;
-        padding: 12px !important;
-        border-radius: 12px !important;
-        margin-bottom: 16px !important;
-        font-size: 12px !important;
-        color: #FFCDD2 !important;
-    }
-
-    /* Scientific matrix-like dividers */
-    .digital-divider {
-        height: 2px;
-        background: linear-gradient(to right, rgba(0, 255, 102, 0.5), rgba(78, 20, 111, 0.8), transparent);
-        border: none;
-        margin: 15px 0;
-    }
+}
+/* Scientific holographic card styling */
+.app-card {
+    background: rgba(30, 8, 48, 0.75) !important;
+    border: 1px solid rgba(0, 255, 102, 0.2) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+}
+.app-card:hover {
+    border-color: rgba(0, 255, 102, 0.6) !important;
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.25) !important;
+}
+/* Glowing typography headers */
+.app-title {
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 0 15px rgba(0, 255, 102, 0.6) !important;
+    text-align: center !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 2px !important;
+}
+.app-subtitle {
+    font-size: 11px !important;
+    color: #00FF66 !important; /* Matrix/Vibrant Green */
+    text-align: center !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 24px !important;
+    text-transform: uppercase !important;
+    font-weight: bold !important;
+}
+/* Policy and Target digital readouts */
+.policy-label {
+    font-size: 11px;
+    font-weight: 700;
+    background-color: rgba(78, 20, 111, 0.4); /* Purple tint */
+    color: #E1BEE7; /* Light Purple text */
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 8px;
+    border: 1px solid rgba(78, 20, 111, 0.6);
+    font-family: monospace;
+}
+.target-label {
+    font-size: 11px;
+    font-weight: 700;
+    background-color: rgba(0, 255, 102, 0.08); /* Green tint */
+    color: #00FF66; /* Vibrant Green text */
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 8px;
+    margin-left: 4px;
+    border: 1px solid rgba(0, 255, 102, 0.3);
+    font-family: monospace;
+}
+/* Customized Popover Button (Scientific Bubble Node) */
+div.stPopover > button {
+    background-color: rgba(0, 255, 102, 0.05) !important;
+    border: 1px solid rgba(0, 255, 102, 0.3) !important;
+    color: #00FF66 !important;
+    border-radius: 8px !important;
+    font-size: 10px !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 2px 8px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 0 5px rgba(0, 255, 102, 0.1) !important;
+}
+div.stPopover > button:hover {
+    background-color: rgba(0, 255, 102, 0.15) !important;
+    border-color: #00FF66 !important;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.4) !important;
+    color: #FFFFFF !important;
+}
+/* Dialog/Popover Inner styling */
+.bubble-header {
+    font-size: 14px;
+    color: #00FF66;
+    font-family: monospace;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0, 255, 102, 0.3);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+}
+.bubble-policy {
+    font-size: 11px;
+    color: #E1BEE7;
+    background: rgba(78, 20, 111, 0.3);
+    padding: 6px;
+    border-radius: 6px;
+    border-left: 3px solid #9C27B0;
+    margin-bottom: 8px;
+}
+/* Standardized remedial and alert styles */
+.remedy-banner {
+    background-color: rgba(251, 192, 45, 0.1) !important;
+    border-left: 4px solid #FBC02D !important;
+    border: 1px solid rgba(251, 192, 45, 0.25) !important;
+    padding: 12px !important;
+    border-radius: 8px !important;
+    margin-top: 10px !important;
+    font-size: 12px !important;
+    color: #FFE082 !important;
+}
+.cascade-alert {
+    background-color: rgba(211, 47, 47, 0.12) !important;
+    border: 1px solid rgba(211, 47, 47, 0.3) !important;
+    border-left: 5px solid #D32F2F !important;
+    padding: 12px !important;
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+    font-size: 12px !important;
+    color: #FFCDD2 !important;
+}
+/* Scientific matrix-like dividers */
+.digital-divider {
+    height: 2px;
+    background: linear-gradient(to right, rgba(0, 255, 102, 0.5), rgba(78, 20, 111, 0.8), transparent);
+    border: none;
+    margin: 15px 0;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -355,10 +344,12 @@ if 'appraisal_audit_v4' not in st.session_state:
 # Dropdown selector for the S26 Ultra Touch UI
 phase_selector = st.selectbox(
     "SELECT VIEWPORT MODE:",
-    ["Phase I: Baseline Discovery (Days 1–30)", 
-     "Phase II: Operational Analysis (Days 31–60)", 
-     "Phase III: Synthesis & Recommendations (Days 61–90)",
-     "Progress & Findings Report (Executive Tab)"],
+    [
+        "Phase I: Baseline Discovery (Days 1–30)",
+        "Phase II: Operational Analysis (Days 31–60)",
+        "Phase III: Synthesis & Recommendations (Days 61–90)",
+        "Progress & Findings Report (Executive Tab)"
+    ],
     index=0
 )
 
@@ -367,18 +358,14 @@ if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
     st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
     st.markdown(f"### **{audit_db['Phase I']['title']}**")
     
-    # Phase overarching info popover (Bubble window)
     with st.popover("🔬 CLICK FOR PHASE I DIAGNOSTIC BLUEPRINT"):
         st.markdown(f'<div class="bubble-header">PHASE I OVERVIEW & OBJECTIVE</div>', unsafe_allow_html=True)
         st.write(audit_db["Phase I"]["diagnostic_rationale"])
-    
-    st.write("Perform real-time compliance audits. Tap policy badges or [INFO] buttons to reveal detailed scientific rationales.")
-
+        st.write("Perform real-time compliance audits. Tap policy badges or [INFO] buttons to reveal detailed scientific rationales.")
+        
     phase_tasks = audit_db["Phase I"]["tasks"]
     for task_id, task_info in phase_tasks.items():
         st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
-        
-        # Policy badge as a trigger for a popover (Bubble window for policy)
         col_badge, col_pop_task = st.columns([3, 1])
         with col_badge:
             st.markdown(f'<div class="policy-label">{task_info["policy_short"]}</div>', unsafe_allow_html=True)
@@ -389,43 +376,43 @@ if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
                 st.markdown(f'<div class="bubble-policy"><strong>Policy Source:</strong> {task_info["policy_long"]}</div>', unsafe_allow_html=True)
                 st.write(f"**Operational Task:** {task_info['desc_long']}")
                 st.markdown(f'<div style="color:#00FF66; margin-top:8px;"><strong>Appraisal Rationale:</strong> {task_info["rationale"]}</div>', unsafe_allow_html=True)
-
+                
         st.markdown(f"**{task_info['label']}**")
         
-        # Pull current state
+        # Pull current state and pre-sync the widget key
         curr_state = st.session_state.appraisal_audit_v4[task_id]["compliant"]
-        
+        widget_key = f"status_{task_id}"
+
+        if widget_key not in st.session_state:
+            st.session_state[widget_key] = "Compliant" if curr_state else "Non-Compliant"
+
         col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
             st.write("Diagnostic Status:")
         with col_sel:
             status_val = st.radio(
-                "Select status",
-                ["Compliant", "Non-Compliant"],
-                index=0 if curr_state else 1,
-                key=f"status_{task_id}",
-                horizontal=True,
-                label_visibility="collapsed"
+                "Select status", 
+                ["Compliant", "Non-Compliant"], 
+                key=widget_key, 
+                horizontal=True, 
+                label_visibility="collapsed" 
             )
         
-        # Save to session state
         st.session_state.appraisal_audit_v4[task_id]["compliant"] = (status_val == "Compliant")
-        
-        # Render remediation instructions if marked Non-Compliant
+
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remedy-banner">'\
-                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'\
-                f'</div>',\
+                f'<div class="remedy-banner">'
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
+                f'</div>',
                 unsafe_allow_html=True
             )
-            
-        st.markdown('</div>', unsafe_allow_html=True)
         
+        st.markdown('</div>', unsafe_allow_html=True)
+
     st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
     st.markdown("#### **🧠 CLIFTONSTRENGTHS: PHASE I LEADERSHIP**")
     st.write("Dr. Scott Niewinski can strategically deploy his dominant talents to drive Phase I implementation:")
-    
     with st.expander("🎓 Learner® — Meticulous Chart & LARA Auditing"):
         st.write("Apply the Learner drive to meticulously study licensing regulations and CPT guidelines. Treat the **30-case stratified chart audit** and LARA log review as active, intellectually engaging learning journeys from baseline discovery to full clinical mastery.")
     with st.expander("🎯 Strategic® — Workflow Bottleneck Mapping"):
@@ -441,12 +428,10 @@ if phase_selector == "Phase I: Baseline Discovery (Days 1–30)":
 elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
     st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
     st.markdown(f"### **{audit_db['Phase II']['title']}**")
-    
     with st.popover("🔬 CLICK FOR PHASE II DIAGNOSTIC BLUEPRINT"):
         st.markdown(f'<div class="bubble-header">PHASE II OVERVIEW & OBJECTIVE</div>', unsafe_allow_html=True)
         st.write(audit_db["Phase II"]["diagnostic_rationale"])
         
-    # CARRYOVER LOGIC: Phase I to Phase II
     phase1_tasks = audit_db["Phase I"]["tasks"]
     p1_non_compliant_keys = [tid for tid in phase1_tasks.keys() if not st.session_state.appraisal_audit_v4[tid]["compliant"]]
     
@@ -459,12 +444,10 @@ elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
         st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.markdown('<div style="background-color: rgba(0, 255, 102, 0.08); padding: 12px; border-radius: 12px; border-left: 5px solid #00FF66; border: 1px solid rgba(0, 255, 102, 0.2); margin-bottom: 16px; font-size: 12px; color: #00FF66;">✓ <strong>All Phase I baselines are verified and compliant.</strong> Transitioning cleanly into Phase II operational audits.</div>', unsafe_allow_html=True)
-
+        
     phase_tasks = audit_db["Phase II"]["tasks"]
     for task_id, task_info in phase_tasks.items():
         st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
-        
-        # Policy badge and popover
         col_badge, col_pop_task = st.columns([3, 1])
         with col_badge:
             st.markdown(f'<div class="policy-label">{task_info["policy_short"]}</div>', unsafe_allow_html=True)
@@ -475,49 +458,48 @@ elif phase_selector == "Phase II: Operational Analysis (Days 31–60)":
                 st.markdown(f'<div class="bubble-policy"><strong>Policy Source:</strong> {task_info["policy_long"]}</div>', unsafe_allow_html=True)
                 st.write(f"**Operational Task:** {task_info['desc_long']}")
                 st.markdown(f'<div style="color:#00FF66; margin-top:8px;"><strong>Appraisal Rationale:</strong> {task_info["rationale"]}</div>', unsafe_allow_html=True)
-
+                
         st.markdown(f"**{task_info['label']}**")
         
-        # Pull current state
+        # Pull current state and pre-sync the widget key
         curr_state = st.session_state.appraisal_audit_v4[task_id]["compliant"]
-        
+        widget_key = f"status_{task_id}"
+
+        if widget_key not in st.session_state:
+            st.session_state[widget_key] = "Compliant" if curr_state else "Non-Compliant"
+
         col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
             st.write("Diagnostic Status:")
         with col_sel:
             status_val = st.radio(
-                "Select status",
-                ["Compliant", "Non-Compliant"],
-                index=0 if curr_state else 1,
-                key=f"status_{task_id}",
-                horizontal=True,
-                label_visibility="collapsed"
+                "Select status", 
+                ["Compliant", "Non-Compliant"], 
+                key=widget_key, 
+                horizontal=True, 
+                label_visibility="collapsed" 
             )
         
-        # Save to session state
         st.session_state.appraisal_audit_v4[task_id]["compliant"] = (status_val == "Compliant")
-        
-        # Render remediation instructions if marked Non-Compliant
+
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remedy-banner">'\
-                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'\
-                f'</div>',\
+                f'<div class="remedy-banner">'
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
+                f'</div>',
                 unsafe_allow_html=True
             )
-            
+        
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------- PHASE III VIEW -----------------
 elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
     st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
     st.markdown(f"### **{audit_db['Phase III']['title']}**")
-    
     with st.popover("🔬 CLICK FOR PHASE III DIAGNOSTIC BLUEPRINT"):
         st.markdown(f'<div class="bubble-header">PHASE III OVERVIEW & OBJECTIVE</div>', unsafe_allow_html=True)
         st.write(audit_db["Phase III"]["diagnostic_rationale"])
         
-    # CARRYOVER LOGIC: Phase II to Phase III
     phase2_tasks = audit_db["Phase II"]["tasks"]
     p2_non_compliant_keys = [tid for tid in phase2_tasks.keys() if not st.session_state.appraisal_audit_v4[tid]["compliant"]]
     
@@ -530,12 +512,10 @@ elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
         st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.markdown('<div style="background-color: rgba(0, 255, 102, 0.08); padding: 12px; border-radius: 12px; border-left: 5px solid #00FF66; border: 1px solid rgba(0, 255, 102, 0.2); margin-bottom: 16px; font-size: 12px; color: #00FF66;">✓ <strong>All Phase II analytical audits are verified and compliant.</strong> Ready to synthesize strategic recommendations.</div>', unsafe_allow_html=True)
-
+        
     phase_tasks = audit_db["Phase III"]["tasks"]
     for task_id, task_info in phase_tasks.items():
         st.markdown(f'<div class="app-card">', unsafe_allow_html=True)
-        
-        # Policy badge and popover
         col_badge, col_pop_task = st.columns([3, 1])
         with col_badge:
             st.markdown(f'<div class="policy-label">{task_info["policy_short"]}</div>', unsafe_allow_html=True)
@@ -546,51 +526,49 @@ elif phase_selector == "Phase III: Synthesis & Recommendations (Days 61–90)":
                 st.markdown(f'<div class="bubble-policy"><strong>Policy Source:</strong> {task_info["policy_long"]}</div>', unsafe_allow_html=True)
                 st.write(f"**Operational Task:** {task_info['desc_long']}")
                 st.markdown(f'<div style="color:#00FF66; margin-top:8px;"><strong>Appraisal Rationale:</strong> {task_info["rationale"]}</div>', unsafe_allow_html=True)
-
+                
         st.markdown(f"**{task_info['label']}**")
         
-        # Pull current state
+        # Pull current state and pre-sync the widget key
         curr_state = st.session_state.appraisal_audit_v4[task_id]["compliant"]
-        
+        widget_key = f"status_{task_id}"
+
+        if widget_key not in st.session_state:
+            st.session_state[widget_key] = "Compliant" if curr_state else "Non-Compliant"
+
         col_lbl, col_sel = st.columns([1, 1])
         with col_lbl:
             st.write("Diagnostic Status:")
         with col_sel:
             status_val = st.radio(
-                "Select status",
-                ["Compliant", "Non-Compliant"],
-                index=0 if curr_state else 1,
-                key=f"status_{task_id}",
-                horizontal=True,
-                label_visibility="collapsed"
+                "Select status", 
+                ["Compliant", "Non-Compliant"], 
+                key=widget_key, 
+                horizontal=True, 
+                label_visibility="collapsed" 
             )
         
-        # Save to session state
         st.session_state.appraisal_audit_v4[task_id]["compliant"] = (status_val == "Compliant")
-        
-        # Render remediation instructions if marked Non-Compliant
+
         if status_val == "Non-Compliant":
             st.markdown(
-                f'<div class="remedy-banner">'\
-                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'\
-                f'</div>',\
+                f'<div class="remedy-banner">'
+                f'⚠️ <strong>REMEDIATION DIRECTIVE:</strong> {task_info["remediation"]}'
+                f'</div>',
                 unsafe_allow_html=True
             )
-            
+        
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------- PROGRESS & FINDINGS REPORT VIEW -----------------
 elif phase_selector == "Progress & Findings Report (Executive Tab)":
     st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
-    
-    # Styled Executive Header Block (Purple & Green design)
     st.markdown("<div style='text-align: center; border: 2px solid rgba(0, 255, 102, 0.4); padding: 16px; border-radius: 16px; background-color: rgba(30, 8, 48, 0.95); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);'>", unsafe_allow_html=True)
     st.markdown("<h3 style='color: #FFFFFF; margin: 0; font-weight: 900; font-size:16px; font-family: monospace; letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);'>CNS HEALTHCARE PSYCHOLOGICAL SERVICES</h3>", unsafe_allow_html=True)
     st.markdown("<h4 style='color: #00FF66; margin: 4px 0 0 0; font-weight: 700; font-size:12px; font-family: monospace; letter-spacing: 1px;'>EXECUTIVE PROGRESS & FINDINGS REPORT</h4>", unsafe_allow_html=True)
     st.markdown(f"<p style='color: #E1BEE7; font-size: 10px; margin: 6px 0 0 0; font-family: monospace; line-height: 1.3;'>Prepared for: Provider Supervisors & Executive Leadership<br>Auditor: Dr. Scott Niewinski, Psy.D., Manager of Psychological Services</p>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
-    
-    # Calculate live global metrics across all phases
+
     all_tasks = []
     compliant_count = 0
     non_compliant_list = []
@@ -607,33 +585,28 @@ elif phase_selector == "Progress & Findings Report (Executive Tab)":
                 non_compliant_list.append((task_info, phase_info["title"]))
                 
     total_count = len(all_tasks)
-    comp_pct = (compliant_count / total_count) * 100
-    
-    # Executive Digital Scorecards
+    comp_pct = (compliant_count / total_count) * 100 if total_count > 0 else 0
+
     col_pct, col_non = st.columns(2)
     with col_pct:
         st.metric("COMPLIANCE RATE", f"{comp_pct:.1f}%", f"{compliant_count}/{total_count} Passed")
     with col_non:
         st.metric("ACTIVE GAPS", f"{len(non_compliant_list)}", delta="- Risk Mitigations Needed", delta_color="inverse")
         
-    st.progress(compliant_count / total_count)
+    st.progress(compliant_count / total_count if total_count > 0 else 0)
     st.markdown('<div class="digital-divider"></div>', unsafe_allow_html=True)
-    
     st.markdown("### **📋 APPRAISAL STATUS SUMMARY**")
-    
-    # Compliant Items Summary
+
     if compliant_list:
         with st.expander("🟢 VERIFIED STRENGTHS & COMPLIANT AREAS", expanded=True):
             for t_info, p_name in compliant_list:
                 st.markdown(f"**✓ {t_info['label']}**")
                 st.markdown(f"<span style='font-size:10px; color:#00FF66; font-family: monospace;'>Phase: {p_name} | Policy: {t_info['policy_short']}</span>", unsafe_allow_html=True)
                 st.markdown("<hr style='margin: 8px 0; border: none; border-bottom: 1px solid rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
-    
-    # Non-Compliant Gaps Summary with dynamic Remediation Directives
+
     if non_compliant_list:
         st.markdown("### **🔴 CRITICAL VULNERABILITIES & MITIGATION MATRIX**")
         st.write("These items represent active regulatory, licensing, or billing liabilities demanding immediate executive correction:")
-        
         for t_info, p_name in non_compliant_list:
             st.markdown(f"<div style='border: 1px solid rgba(211, 47, 47, 0.4); border-radius: 12px; padding: 14px; margin-bottom: 12px; background-color: rgba(211, 47, 47, 0.08);'>", unsafe_allow_html=True)
             st.markdown(f"<strong style='color:#FF8A80; font-family: monospace;'>[GAP] {t_info['label']}</strong><br><span style='font-size:10px; color:#E1BEE7;'>Phase: {p_name}</span>", unsafe_allow_html=True)
@@ -641,21 +614,20 @@ elif phase_selector == "Progress & Findings Report (Executive Tab)":
             st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #00FF66; font-family: monospace;'><strong>Target KPI Metric:</strong> {t_info['target']}</p>", unsafe_allow_html=True)
             st.markdown(f"<p style='margin: 4px 0 4px 0; font-size:12px; color: #FFCDD2;'><strong>Active Vulnerability:</strong> {t_info['rationale']}</p>", unsafe_allow_html=True)
             
+            # Formatted without backslash continuation
             st.markdown(
-                f'<div class="remedy-banner">'\
-                f'🛠️ <strong>REMEDIATION DIRECTIVE:</strong> {t_info["remediation"]}'\
-                f'</div>',\
+                f'<div class="remedy-banner">'
+                f'🛠️ <strong>REMEDIATION DIRECTIVE:</strong> {t_info["remediation"]}'
+                f'</div>',
                 unsafe_allow_html=True
             )
+            
             st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.success("🎉 Spectacular! All 90-Day appraisal deliverables are verified as 100% compliant with LARA, MDHHS, and CARF guidelines. No active risks detected.")
 
 # Sticky Scientific Footer
 st.markdown("<hr style='margin-top: 30px; border-color: rgba(0, 255, 102, 0.2);'>", unsafe_allow_html=True)
-st.markdown(
-    '<div style="font-size:9px; color:#808080; text-align:center; padding-bottom:15px; font-family: monospace;">'
-    'CNS Healthcare Appraisal Systems • Grounded strictly in "90-Day Psychological Services Appraisal Plan.docx"'
-    '</div>',
-    unsafe_allow_html=True
-)
+st.markdown('<div style="font-size:9px; color:#808080; text-align:center; padding-bottom:15px; font-family: monospace;">'
+            'CNS Healthcare Appraisal Systems • Grounded strictly in "90-Day Psychological Services Appraisal Plan.docx"'
+            '</div>', unsafe_allow_html=True)
